@@ -1,0 +1,56 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="encode.values.tt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="encode.values.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>encode.values.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="encode.values.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>encode.values.tt</DependentUpon>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Objectoid\Objectoid.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Executioner">
+      <HintPath>..\..\Executioner.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="encode.types.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>encode.types.tt</DependentUpon>
+    </Compile>
+    <Compile Update="encode.values.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>encode.values.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>

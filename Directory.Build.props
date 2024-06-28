@@ -1,0 +1,8 @@
+<Project>
+  <PropertyGroup>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+  </PropertyGroup>
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="$(ProjectName)!='test'">
+		<Exec Command="set postbuild=$(SolutionDir)..\_postbuild\postbuild.bat&#xD;&#xA;if exist %25postbuild%25 call %25postbuild%25 $(SolutionDir) $(ProjectDir) $(ProjectName) $(TargetDir) $(TargetName)&#xD;&#xA;" />
+	</Target>
+</Project>

@@ -1,0 +1,72 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="50ObjIFBElement.values.tt" />
+    <None Remove="readwrite\10ObjRW.values.tt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="00exception.cs" />
+    <Compile Include="01ObjType.ext.cs" />
+    <Compile Include="02ObjNTString.cs" />
+    <Compile Include="10ObjDocument.cs" />
+    <Compile Include="21ObjNullElement.cs" />
+    <Compile Include="22IObjValuable.cs" />
+    <Compile Include="22ObjAddressable.cs" />
+    <Compile Include="20ObjElement.cs" />
+    <Compile Include="01ObjType.cs" />
+    <Compile Include="32ObjList.cs" />
+    <Compile Include="31ObjRootObject.cs" />
+    <Compile Include="31ObjDocObject.cs" />
+    <Compile Include="30ObjCollection.cs" />
+    <Compile Include="40ObjComparable.cs" />
+    <Compile Include="41ObjStringElement.cs" />
+    <Compile Include="41ObjNTStringElement.cs" />
+    <Compile Include="50ObjIFBElement.cs" />
+    <Compile Include="50ObjIFBElement.values.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>50ObjIFBElement.values.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\RookInfo.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RookInfo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="readwrite\10ObjRW.cs" />
+    <Compile Include="readwrite\10ObjRW.values.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>10ObjRW.values.tt</DependentUpon>
+    </Compile>
+    <Compile Include="readwrite\read\10ObjReader.cs" />
+    <Compile Include="readwrite\write\10ObjWriter.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="50ObjIFBElement.values.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>50ObjIFBElement.values.cs</LastGenOutput>
+    </Content>
+    <Content Include="Properties\RookInfo.xml" />
+    <Content Include="Properties\RookInfo.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>RookInfo.cs</LastGenOutput>
+    </Content>
+    <Content Include="readwrite\10ObjRW.values.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>10ObjRW.values.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v17.0\TextTemplating\Microsoft.TextTemplating.targets" />
+</Project>

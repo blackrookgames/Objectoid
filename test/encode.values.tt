@@ -5,6 +5,7 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".cs" #>
 using System;
+using System.Linq;
 using Executioner;
 using Objectoid;
 
@@ -21,6 +22,10 @@ namespace test
                 }},
                 { ObjType.String, s => {
                     return new ObjStringElement(s);
+                }},
+                { ObjType.RawBytes, s => {
+                    try { return new ObjRawBytesElement(from ss in s.Split(_WhitespaceChars, StringSplitOptions.RemoveEmptyEntries) select byte.Parse(ss)); }
+                    catch { throw new CommandFailedException($"\"{s}\" is not valid raw byte data."); }
                 }},
 <# CreateEntry(this, 4, "UInt8", "byte", "unsigned 8-bit integer"); #>
 <# CreateEntry(this, 4, "Int8", "sbyte", "signed 8-bit integer"); #>

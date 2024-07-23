@@ -27,6 +27,7 @@
     <Compile Include="31ObjDocObject.cs" />
     <Compile Include="30ObjCollection.cs" />
     <Compile Include="40ObjComparable.cs" />
+    <Compile Include="60ObjRawBytesElement.cs" />
     <Compile Include="41ObjStringElement.cs" />
     <Compile Include="41ObjNTStringElement.cs" />
     <Compile Include="50ObjIFBElement.cs" />

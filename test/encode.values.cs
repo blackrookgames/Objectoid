@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Executioner;
 using Objectoid;
 
@@ -15,6 +16,10 @@ namespace test
                 }},
                 { ObjType.String, s => {
                     return new ObjStringElement(s);
+                }},
+                { ObjType.RawBytes, s => {
+                    try { return new ObjRawBytesElement(from ss in s.Split(_WhitespaceChars, StringSplitOptions.RemoveEmptyEntries) select byte.Parse(ss)); }
+                    catch { throw new CommandFailedException($"\"{s}\" is not valid raw byte data."); }
                 }},
                 { ObjType.UInt8, s => {
                     if (!byte.TryParse(s, out byte value))

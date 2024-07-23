@@ -144,6 +144,13 @@ namespace Objectoid
                     objWriter.WriteAddressable(comparable);
                 }
             }
+            //If element is misc addressable
+            else if (objElement is ObjAddressable)
+            {
+                ObjAddressable addressable = (ObjAddressable)objElement;
+                objWriter.WriteUInt8((byte)addressable.Type);
+                objWriter.WriteAddressable(addressable);
+            }
             //If element is integer, float, or boolean
             else if (objElement is ObjIFBElement)
             {

@@ -54,9 +54,10 @@ namespace Objectoid
             long mainObjRefPosition = stream.Position;
             writer.WriteInt32(0);
 
-            //Find all collections, comparables, and property names
+            //Find all addressables and property names
             HashSet<ObjCollection> collections = new HashSet<ObjCollection>(); //Collections will be ordered by dependency
             List<ObjComparable> comparables = new List<ObjComparable>();
+            List<ObjAddressable> miscAddressables = new List<ObjAddressable>();
             List<ObjNTString> propertyNames = new List<ObjNTString>();
             void addCollection(ObjCollection collection)
             {
@@ -84,6 +85,11 @@ namespace Objectoid
                         }
                         //Insert comparable
                         if (!dontInsert) comparables.Insert(index, comparable);
+                    }
+                    //If element is addressable
+                    else if (element is ObjAddressable)
+                    {
+                        miscAddressables.Add((ObjAddressable)element);
                     }
                 }
                 //If collection is document-object
@@ -118,6 +124,13 @@ namespace Objectoid
                 foreach (byte c in propertyName)
                     writer.WriteUInt8(c);
                 writer.WriteUInt8(0);
+            }
+
+            //Write all misc addressables
+            foreach (ObjAddressable addressable in miscAddressables)
+            {
+                writer.RegisterAddressable(addressable);
+                addressable.Write_m(writer);
             }
 
             //Write all comparables

@@ -132,6 +132,15 @@ namespace test
                             var _element = (IObjValuable)element;
                             streamWriter.Write($"\"/{element.Type} {_element.Value}\"");
                         }
+                        //If raw byte data
+                        else if (element is ObjRawBytesElement)
+                        {
+                            var _element = (ObjRawBytesElement)element;
+                            streamWriter.Write($"\"/{element.Type}");
+                            foreach (byte b in _element)
+                                streamWriter.Write($" {b}");
+                            streamWriter.Write($"\"");
+                        }
                         //Assume null
                         else
                         {

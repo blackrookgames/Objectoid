@@ -34,6 +34,8 @@ namespace Objectoid
                 { ObjType.Single, () => new ObjSingleElement() },
                 { ObjType.Double, () => new ObjDoubleElement() },
                 { ObjType.Bool, () => new ObjBoolElement() },
+
+                { ObjType.RawBytes, () => new ObjRawBytesElement() },
             };
 
         /// <summary>Attempts to create an element of the specified type</summary>

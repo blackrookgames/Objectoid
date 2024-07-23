@@ -10,6 +10,19 @@ namespace test
     [Command(Path = "encode", Description = "Encodes an Objectoid document from the specified JSON document")]
     internal partial class Cmd_encode : Command
     {
+        #region static
+
+        static Cmd_encode()
+        {
+            _WhitespaceChars = new char[0x21];
+            for (int i = 0; i < _WhitespaceChars.Length; i++)
+                _WhitespaceChars[i] = (char)i;
+        }
+
+        private static readonly char[] _WhitespaceChars;
+
+        #endregion
+
         [OptionalParameter(Description = "Input *.json Document")]
         private string input;
 
@@ -59,7 +72,7 @@ namespace test
             ObjElement read(JsonElement jsonElement, string path)
             {
                 CommandFailedException invalid(string message) =>
-                    new CommandFailedException($"Path: {path}\r\nmessage");
+                    new CommandFailedException($"Path: {path}\r\n{message}");
                 switch (jsonElement.ValueKind)
                 {
                     //Object

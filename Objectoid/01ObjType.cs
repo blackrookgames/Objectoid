@@ -70,5 +70,12 @@ namespace Objectoid
         Bool = 0x8A,
 
         #endregion
+
+        #region Misc
+
+        /// <summary>Raw byte data</summary>
+        RawBytes = 0x90,
+
+        #endregion
     }
 }

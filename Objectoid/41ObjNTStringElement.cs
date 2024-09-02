@@ -47,6 +47,10 @@ namespace Objectoid
         }
 
         /// <summary>A null-terminated string value</summary>
-        public new ObjNTString Value { get => Value_p; set => Value_p = value; }
+        public new ObjNTString Value
+        {
+            get => Value_p;
+            set => Value_p = (value is null) ? new ObjNTString(Array.Empty<byte>()) : value;
+        }
     }
 }

@@ -8,10 +8,10 @@ namespace test
         static int Main(string[] args)
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
-            string prefix = Path.GetFileNameWithoutExtension(assembly.Location);
 
             CommandExecutor commandExecutor = new CommandExecutor(assembly);
-            CommandExecutorResult result = commandExecutor.Run(args, syntaxPrefix: prefix);
+            commandExecutor.SyntaxPrefix = Path.GetFileNameWithoutExtension(assembly.Location);
+            CommandExecutorResult result = commandExecutor.Run(args);
             switch (result.Code)
             {
                 case CommandExecutorResultCode.Info:

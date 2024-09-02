@@ -76,7 +76,10 @@ namespace Objectoid
         }
 
         /// <summary>A string value</summary>
-        public new string Value { get => Value_p; set => Value_p = value; }
-
+        public new string Value
+        {
+            get => Value_p;
+            set => Value_p = (value is null) ? string.Empty : value;
+        }
     }
 }

@@ -134,15 +134,8 @@ namespace Objectoid
             else if (objElement is ObjComparable)
             {
                 ObjComparable comparable = (ObjComparable)objElement;
-                if (comparable.Value is null)
-                {
-                    objWriter.WriteUInt8((byte)ObjType.Null);
-                }
-                else
-                {
-                    objWriter.WriteUInt8((byte)comparable.Type);
-                    objWriter.WriteAddressable(comparable);
-                }
+                objWriter.WriteUInt8((byte)comparable.Type);
+                objWriter.WriteAddressable(comparable);
             }
             //If element is misc addressable
             else if (objElement is ObjAddressable)

@@ -41,6 +41,47 @@ namespace Objectoid
         where TElement : ObjComparable<TElement, TValue>
         where TValue : class, IEquatable<TValue>, IComparable<TValue>
     {
+        #region helper
+
+        /// <summary>Checks if the two elements have values that are equal</summary>
+        /// <param name="a">Element A</param>
+        /// <param name="b">Element B</param>
+        /// <returns>Whether or not the two elements have values that are equal</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="a"/> is null
+        /// <br/>or<br/><paramref name="b"/> is null</exception>
+        private static bool Equals_m(TElement a, TElement b)
+        {
+            try
+            {
+                if (a.Value_p is null) return b.Value_p is null;
+                return a.Value_p.Equals(b.Value_p);
+            }
+            catch when (a is null) { throw new ArgumentNullException(nameof(a)); }
+            catch when (b is null) { throw new ArgumentNullException(nameof(b)); }
+        }
+
+        /// <summary>Compares Element A with Element B and determines whether or not 
+        /// the Element A precedes, follows, or occurs in the same sorting position as Element B</summary>
+        /// <param name="a">Element A</param>
+        /// <param name="b">Element B</param>
+        /// <returns>Less than zero: Element A precedes Element B
+        /// <br/>Equal to zero: Element A occurs in the same position as Element B
+        /// <br/>Greater than zero: Element A follows Element B</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="a"/> is null
+        /// <br/>or<br/><paramref name="b"/> is null</exception>
+        private static int Compare_m(TElement a, TElement b)
+        {
+            try
+            {
+                if (a.Value_p is null) return (b.Value_p is null) ? 0 : -1;
+                return a.Value_p.CompareTo(b.Value_p);
+            }
+            catch when (a is null) { throw new ArgumentNullException(nameof(a)); }
+            catch when (b is null) { throw new ArgumentNullException(nameof(b)); }
+        }
+
+        #endregion
+
         #region ObjElement
 
         /// <inheritdoc/>
@@ -55,12 +96,13 @@ namespace Objectoid
         {
             if (other is null) return false;
             if (!(other is TElement)) return false;
-            return Value_p.Equals(((TElement)other).Value_p);
+            return Equals_m((TElement)this, (TElement)other);
         }
 
         /// <inheritdoc/>
         private protected override sealed int GetHashCode_m()
         {
+            if (Value_p is null) return -1;
             return Value_p.GetHashCode();
         }
 
@@ -74,7 +116,7 @@ namespace Objectoid
         /// <inheritdoc/>
         internal override sealed int CompareTo_m(ObjComparable other)
         {
-            return Value_p.CompareTo(((TElement)other).Value_p);
+            return Compare_m((TElement)this, (TElement)other);
         }
 
         #endregion
@@ -87,8 +129,7 @@ namespace Objectoid
         private protected TValue Value_p { get; set; }
 
         /// <summary>Writes the element using the specified writer
-        /// <br/>NOTE: It is assumed <paramref name="objWriter"/> is not null
-        /// <br/>NOTE: It is assumed <see cref="Value_p"/> is not null</summary>
+        /// <br/>NOTE: It is assumed <paramref name="objWriter"/> is not null</summary>
         /// <param name="objWriter">Writer</param>
         /// <exception cref="IOException">I/O error occured</exception>
         /// <exception cref="ObjectDisposedException">Stream was already disposed</exception>

@@ -38,29 +38,37 @@ namespace Objectoid
         /// <inheritdoc/>
         private protected override void Write__m(ObjWriter objWriter)
         {
-            //Determine character size
-            bool is8bit = true;
-            foreach (char c in Value_p)
+            if (Value_p is null)
             {
-                if ((c & 0xFF00) == 0) continue;
-                is8bit = false;
-                break;
-            }
-            //Write length and character size
-            int sizelen = Value_p.Length;
-            if (is8bit) sizelen |= int.MinValue;
-            objWriter.WriteInt32(sizelen);
-            //Write characters
-            if (is8bit)
-            {
-                foreach (char c in Value_p)
-                    objWriter.WriteUInt8((byte)c);
+                objWriter.WriteInt32(0);
             }
             else
             {
+                //Determine character size
+                bool is8bit = true;
                 foreach (char c in Value_p)
-                    objWriter.WriteUInt16(c);
+                {
+                    if ((c & 0xFF00) == 0) continue;
+                    is8bit = false;
+                    break;
+                }
+                //Write length and character size
+                int sizelen = Value_p.Length;
+                if (is8bit) sizelen |= int.MinValue;
+                objWriter.WriteInt32(sizelen);
+                //Write characters
+                if (is8bit)
+                {
+                    foreach (char c in Value_p)
+                        objWriter.WriteUInt8((byte)c);
+                }
+                else
+                {
+                    foreach (char c in Value_p)
+                        objWriter.WriteUInt16(c);
+                }
             }
+            
         }
 
         #endregion
@@ -79,7 +87,7 @@ namespace Objectoid
         public new string Value
         {
             get => Value_p;
-            set => Value_p = (value is null) ? string.Empty : value;
+            set => Value_p = value;
         }
     }
 }

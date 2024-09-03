@@ -29,9 +29,16 @@ namespace Objectoid
         /// <inheritdoc/>
         private protected override void Write__m(ObjWriter objWriter)
         {
-            foreach (byte c in Value_p)
-                objWriter.WriteUInt8(c);
-            objWriter.WriteUInt8(0);
+            if (Value_p is null)
+            {
+                objWriter.WriteUInt8(0);
+            }
+            else
+            {
+                foreach (byte c in Value_p)
+                    objWriter.WriteUInt8(c);
+                objWriter.WriteUInt8(0);
+            }
         }
 
         #endregion
@@ -50,7 +57,7 @@ namespace Objectoid
         public new ObjNTString Value
         {
             get => Value_p;
-            set => Value_p = (value is null) ? new ObjNTString(Array.Empty<byte>()) : value;
+            set => Value_p = value;
         }
     }
 }

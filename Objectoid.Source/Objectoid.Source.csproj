@@ -1,0 +1,80 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Nullable>disable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="integerElements.tt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="#extensions\ObjDocument_ext.cs" />
+    <Compile Include="#internal\#ObjSrcReader\ObjSrcReaderState.cs" />
+    <Compile Include="#internal\#ObjSrcReader\ObjSrcReaderToken.cs" />
+    <Compile Include="#internal\#ObjSrcReader\ObjSrcReaderTokenType.cs" />
+    <Compile Include="#internal\#ObjSrcReader\ObjSrcReader.cs" />
+    <Compile Include="#internal\#ObjSrcWriter\ObjSrcWriter.cs" />
+    <Compile Include="#internal\ObjSrcValidElements.cs" />
+    <Compile Include="#internal\ObjSrcValidElement.cs" />
+    <Compile Include="#internal\ObjSrcValidElementAttribute.cs" />
+    <Compile Include="#internal\ObjSrcKeyword.cs" />
+    <Compile Include="integerElements.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>integerElements.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ObjSrcDocument.cs" />
+    <Compile Include="ObjSrcCollection.cs" />
+    <Compile Include="ObjSrcNTString.cs" />
+    <Compile Include="ObjSrcRawBytes.cs" />
+    <Compile Include="ObjSrcValuable.cs" />
+    <Compile Include="ObjSrcNull.cs" />
+    <Compile Include="ObjSrcList.cs" />
+    <Compile Include="ObjSrcImport.cs" />
+    <Compile Include="ObjSrcObjectProperty.cs" />
+    <Compile Include="ObjSrcRoot.cs" />
+    <Compile Include="ObjSrcString.cs" />
+    <Compile Include="ObjSrcObject.cs" />
+    <Compile Include="ObjSrcException.cs" />
+    <Compile Include="ObjSrcElement.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\RookInfo.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RookInfo.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="integerElements.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>integerElements.cs</LastGenOutput>
+    </Content>
+    <Content Include="Properties\RookInfo.xml" />
+    <Content Include="Properties\RookInfo.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>RookInfo.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Objectoid\Objectoid.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Rookie">
+      <HintPath>..\..\Rookie.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Objectoid.Source.syntax.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v17.0\TextTemplating\Microsoft.TextTemplating.targets" />
+</Project>

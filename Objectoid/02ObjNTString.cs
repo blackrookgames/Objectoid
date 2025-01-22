@@ -10,6 +10,37 @@ namespace Objectoid
     /// <summary>Represents a null-terminated string</summary>
     public class ObjNTString : IEquatable<ObjNTString>, IComparable<ObjNTString>, IEnumerable<byte>
     {
+        private enum ParseResult_ { Success, NullChars, Non8BitChars, }
+
+        #region helper
+
+        /// <summary>Attempts to parse the specified string to a array of bytes that are compatible with null-terminated strings</summary>
+        /// <param name="s">String to parse</param>
+        /// <param name="result">Resulting byte array</param>
+        /// <returns>Parse result</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="s"/> is null</exception>
+        private static ParseResult_ Parse_m(string s, out byte[] result)
+        {
+            try
+            {
+                result = new byte[s.Length];
+                for (int i = 0; i < s.Length; i++)
+                {
+                    var c = s[i];
+                    //Ensure character is not null
+                    if (c == 0x00) { result = null; return ParseResult_.NullChars; }
+                    //Ensure character is 8-bit
+                    if ((c & 0xFF00) != 0) { result = null; return ParseResult_.Non8BitChars; }
+                    //Add character
+                    result[i] = (byte)c;
+                }
+                return ParseResult_.Success;
+            }
+            catch when (s is null) { throw new ArgumentNullException(nameof(s)); }
+        }
+
+        #endregion
+
         #region equality
 
         private bool Equals_m(ObjNTString other)
@@ -185,26 +216,17 @@ namespace Objectoid
         /// <br/><paramref name="s"/> contains one or more non-8-bit characters</exception>
         public ObjNTString(string s)
         {
-            try
+            try 
             {
-                _Chars = new byte[s.Length];
-                for (int i = 0; i < s.Length; i++)
+                switch (Parse_m(s, out _Chars))
                 {
-                    char c = s[i];
-                    //Ensure character is not null
-                    if (c == 0x00) throw new ArgumentException(
-                        "String contains one or more null characters.", nameof(s));
-                    //Ensure character is 8-bit
-                    if ((c & 0xFF00) != 0) throw new ArgumentException(
-                        "String contains one or more non-8-bit characters.", nameof(s));
-                    //Add character
-                    _Chars[i] = (byte)c;
+                    case ParseResult_.NullChars:
+                        throw new ArgumentException("String contains one or more null characters.", nameof(s));
+                    case ParseResult_.Non8BitChars:
+                        throw new ArgumentException("String contains one or more non-8-bit characters.", nameof(s));
                 }
             }
-            catch when (s == null)
-            {
-                throw new ArgumentNullException(nameof(s));
-            }
+            catch when (s == null) { throw new ArgumentNullException(nameof(s)); }
         }
 
         /// <summary>Constructor for <see cref="ObjNTString"/>
@@ -216,6 +238,21 @@ namespace Objectoid
         internal ObjNTString(byte[] chars)
         {
             _Chars = chars;
+        }
+
+        /// <summary>Attempts to parse the specified string to a null-terminated string</summary>
+        /// <param name="s">String to parse</param>
+        /// <param name="result">Resulting null-terminated string</param>
+        /// <returns>Whether or not successful</returns>
+        public static bool TryParse(string s, out ObjNTString result)
+        {
+            if (s is null) goto fail;
+            if (Parse_m(s, out var chars) != ParseResult_.Success) goto fail;
+            result = new ObjNTString(chars);
+            return true;
+        fail:
+            result = null;
+            return false;
         }
 
         private readonly byte[] _Chars;

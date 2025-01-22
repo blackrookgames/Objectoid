@@ -1,28 +1,18 @@
-﻿using Executioner;
-using System.Reflection;
+﻿using System.Reflection;
+using Objectoid.Source;
+using Rookie;
 
 namespace test
 {
     internal class Program
     {
-        static int Main(string[] args)
+        static void Main(string[] args)
         {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-
-            CommandExecutor commandExecutor = new CommandExecutor(assembly);
-            commandExecutor.SyntaxPrefix = Path.GetFileNameWithoutExtension(assembly.Location);
-            CommandExecutorResult result = commandExecutor.Run(args);
-            switch (result.Code)
-            {
-                case CommandExecutorResultCode.Info:
-                    Console.WriteLine(result.Message);
-                    return 0;
-                case CommandExecutorResultCode.Fail:
-                    Console.WriteLine($"ERROR:\r\n{result.Message}");
-                    return 1;
-                default:
-                    return 0;
-            }
+            var srcDocument = new ObjSrcDocument();
+            using (var stream = File.OpenRead("test.objsrc"))
+                srcDocument.Load(stream);
+            using (var stream = File.Open("test2.objsrc", FileMode.Truncate, FileAccess.Write))
+                srcDocument.Save(stream);
         }
     }
 }

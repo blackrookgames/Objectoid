@@ -1,0 +1,80 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ output extension=".cs" #>
+<#@ assembly name="System.Xml" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Xml" #>
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+
+<#= Auto(this.Host.ResolvePath("")) #>
+
+<#+
+	static string Auto(string dir)
+	{
+		XmlDocument xmlDoc = new XmlDocument();
+		xmlDoc.Load(dir + "\\RookInfo.xml");
+		//Get nodes
+		XmlNode x_RookInfo = xmlDoc.SelectSingleNode("RookInfo");
+		XmlNode x_Title = x_RookInfo.SelectSingleNode("Title");
+		XmlNode x_Description = x_RookInfo.SelectSingleNode("Description");
+		XmlNode x_Configuration = x_RookInfo.SelectSingleNode("Configuration");
+		XmlNode x_Company = x_RookInfo.SelectSingleNode("Company");
+		XmlNode x_Product = x_RookInfo.SelectSingleNode("Product");
+		XmlNode x_Copyright = x_RookInfo.SelectSingleNode("Copyright");
+		XmlNode x_Trademark = x_RookInfo.SelectSingleNode("Trademark");
+		XmlNode x_Culture = x_RookInfo.SelectSingleNode("Culture");
+		//Get properties
+		ushort p_Major = ushort.Parse(x_RookInfo.Attributes["Major"].Value);
+		string p_Title = x_Title.InnerText;
+		string p_Description = x_Description.InnerText;
+		string p_Configuration = x_Configuration.InnerText;
+		string p_Company = x_Company.InnerText;
+		string p_Product = x_Product.InnerText;
+		string p_Copyright = x_Copyright.InnerText;
+		string p_Trademark = x_Trademark.InnerText;
+		string p_Culture = x_Culture.InnerText;
+		//Calculate version
+		string version = CalculateVersion(p_Major);
+		//Create string
+		using (StringWriter sw = new StringWriter())
+		{
+			sw.WriteLine("[assembly: AssemblyTitle(\"" + p_Title + "\")]");
+			sw.WriteLine("[assembly: AssemblyDescription(\"" + p_Description + "\")]");
+			sw.WriteLine("[assembly: AssemblyConfiguration(\"" + p_Configuration + "\")]");
+			sw.WriteLine("[assembly: AssemblyCompany(\"" + p_Company + "\")]");
+			sw.WriteLine("[assembly: AssemblyProduct(\"" + p_Product + "\")]");
+			sw.WriteLine("[assembly: AssemblyCopyright(\"" + p_Copyright + "\")]");
+			sw.WriteLine("[assembly: AssemblyTrademark(\"" + p_Trademark + "\")]");
+			sw.WriteLine("[assembly: AssemblyCulture(\"" + p_Culture + "\")]");
+			sw.WriteLine("[assembly: AssemblyVersion(\"" + version + "\")]");
+			sw.WriteLine("[assembly: AssemblyFileVersion(\"" + version + "\")]");
+			return sw.ToString();
+		}
+	}
+
+	static string CalculateVersion(ushort major)
+	{
+		ushort[] version = new ushort[4];
+		version[0] = major;
+		//Calculate value
+		long value = DateTime.UtcNow.Ticks;
+		value -= (new DateTime(2020, 1, 1)).Ticks;
+		value /= 10000000;
+		//Set version using value
+		for (int n = version.Length - 1; n > 0; n--)
+		{
+			version[n] = (ushort)(value & 0xFFFF);
+			value >>= 16;
+		}
+		//Return
+		using (StringWriter sw = new StringWriter())
+		{
+			sw.Write(version[0]);
+			for (int n = 1; n < version.Length; n++)
+				sw.Write('.' + version[n].ToString());
+			return sw.ToString();
+		}
+	}
+#>

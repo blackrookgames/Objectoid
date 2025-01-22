@@ -8,31 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="encode.values.tt" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="encode.values.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>encode.values.cs</LastGenOutput>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="encode.values.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>encode.values.tt</DependentUpon>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\Objectoid.Source\Objectoid.Source.csproj" />
     <ProjectReference Include="..\Objectoid\Objectoid.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="Executioner">
-      <HintPath>..\..\Executioner.dll</HintPath>
+    <Reference Include="Rookie">
+      <HintPath>..\..\Rookie.dll</HintPath>
     </Reference>
   </ItemGroup>
 
@@ -45,11 +27,6 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>encode.types.tt</DependentUpon>
-    </Compile>
-    <Compile Update="encode.values.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>encode.values.tt</DependentUpon>
     </Compile>
   </ItemGroup>
 

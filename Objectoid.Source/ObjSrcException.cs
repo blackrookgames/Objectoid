@@ -123,7 +123,7 @@ namespace Objectoid.Source
             {
                 var path = new StringBuilder($"{determineID(srcElement)}");
                 ObjSrcElement collection = srcElement.Collection;
-                while (!(collection is null))
+                while ((!(collection is null)) && (!(collection is ObjSrcRoot)))
                 {
                     path.Insert(0, $"{determineID(collection)}/");
                     collection = collection.Collection;

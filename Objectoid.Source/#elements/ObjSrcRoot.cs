@@ -26,7 +26,7 @@ namespace Objectoid.Source
             ThrowNotCollectible_m();
 
         private readonly ObjSrcDocument _Document;
-        /// <summary>Document that contains the root</summary>
-        public ObjSrcDocument Document => _Document;
+        /// <inheritdoc/>
+        public override ObjSrcDocument Document => _Document;
     }
 }

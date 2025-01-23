@@ -6,6 +6,15 @@ namespace Objectoid
 {
     internal static class ObjSrcKeyword
     {
+        #region header
+
+        ///<summary>Declaration of protocol prefix</summary>
+        public const string _ProtocolPrefix = "@ProtocolPrefix";
+
+        #endregion
+
+        #region element
+
         ///<summary>Declaration of string value</summary>
         public const string _String = "@String";
 
@@ -68,5 +77,7 @@ namespace Objectoid
 
         ///<summary>End of an import block</summary>
         public const string _EndImport = "@EndImport";
+
+        #endregion
     }
 }

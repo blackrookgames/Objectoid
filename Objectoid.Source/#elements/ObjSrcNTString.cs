@@ -31,6 +31,10 @@ namespace Objectoid.Source
                     ObjSrcException.ThrowUnexpectedToken_m(reader.Token);
                 if (!ObjNTString.TryParse(reader.Token.Text, out var value))
                     ObjSrcException.ThrowSyntaxError_m($"\"{reader.Token.Text}\" is not a valid null-terminated string value.", reader.Token);
+
+                reader.Read();
+                reader.Token.ThrowIfNotEOL_m();
+
                 Value = value;
             }
             catch when (reader is null) { throw new ArgumentNullException(nameof(reader)); }
@@ -42,7 +46,7 @@ namespace Objectoid.Source
             try
             {
                 writer.Write($"{ObjSrcKeyword._NTString} ");
-                WriteStringToken(writer, Value.ToString());
+                IObjSrcLoadSave.WriteStringToken(writer, Value.ToString());
                 writer.WriteLine();
             }
             catch when (writer is null) { throw new ArgumentNullException(nameof(writer)); }

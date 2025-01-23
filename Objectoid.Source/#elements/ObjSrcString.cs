@@ -51,7 +51,7 @@ namespace Objectoid.Source
             try
             {
                 writer.Write($"{ObjSrcKeyword._String} ");
-                WriteStringToken(writer, Value);
+                IObjSrcLoadSave.WriteStringToken(writer, Value);
                 writer.WriteLine();
             }
             catch when (writer is null) { throw new ArgumentNullException(nameof(writer)); }

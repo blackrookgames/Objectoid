@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace Objectoid.Source
 {
@@ -41,7 +39,7 @@ namespace Objectoid.Source
             try
             {
                 writer.Write($"{ObjSrcKeyword._Import} ");
-                WriteStringToken(writer, Protocol);
+                IObjSrcLoadSave.WriteStringToken(writer, Protocol);
                 writer.WriteLine();
                 WriteEntries_m(writer, ObjSrcKeyword._EndImport);
             }
@@ -51,9 +49,26 @@ namespace Objectoid.Source
         /// <inheritdoc/>
         internal sealed override ObjElement CreateElement_m(IObjSrcImportOptions options)
         {
+            bool tryGetProtocol(out ObjSrcImportProtocol protocol)
+            {
+                if (options.Protocols.TryGet(Protocol, out protocol))
+                    return true;
+                var prefixes = (
+                    from statement in Document.HeaderStatements
+                    where statement is ObjSrcProtocolPrefix
+                    let protocolPrefix = (ObjSrcProtocolPrefix)statement
+                    select protocolPrefix.Value);
+                foreach (var prefix in prefixes)
+                {
+                    if (options.Protocols.TryGet($"{prefix}{Protocol}", out protocol))
+                        return true;
+                }
+                return false;
+            }
+
             try
             {
-                if (options.Protocols.TryGet(Protocol, out var protocol))
+                if (tryGetProtocol(out var protocol))
                 {
                     try
                     {

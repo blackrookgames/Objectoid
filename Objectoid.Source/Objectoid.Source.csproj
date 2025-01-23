@@ -18,6 +18,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>numberElements.tt</DependentUpon>
     </Compile>
+    <Compile Include="#headerStatements\ObjSrcHeaderStatementList.cs" />
+    <Compile Include="#headerStatements\ObjSrcProtocolPrefix.cs" />
+    <Compile Include="#headerStatements\ObjSrcHeaderStatement.cs" />
     <Compile Include="#ObjSrcImport\ObjSrcImportEncodedProperty.cs" />
     <Compile Include="#ObjSrcImport\ObjSrcImportEncodedPropertyCollection.cs" />
     <Compile Include="#ObjSrcImport\IObjSrcImportProtocolCollection.cs" />
@@ -34,7 +37,9 @@
     <Compile Include="&amp;internal\#ObjSrcWriter\ObjSrcWriter.cs" />
     <Compile Include="&amp;internal\&amp;attributes\ObjSrcAttributeEntry.cs" />
     <Compile Include="&amp;internal\&amp;attributes\ObjSrcDecodable.cs" />
+    <Compile Include="&amp;internal\&amp;attributes\ObjSrcHead.cs" />
     <Compile Include="&amp;internal\&amp;attributes\ObjSrcReadable.cs" />
+    <Compile Include="&amp;internal\IObjSrcLoadSave.cs" />
     <Compile Include="&amp;internal\ObjSrcSymbol.cs" />
     <Compile Include="&amp;internal\ObjSrcKeyword.cs" />
     <Compile Include="IObjSrcDecodable.cs" />

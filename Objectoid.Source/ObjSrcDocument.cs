@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
@@ -10,6 +11,7 @@ namespace Objectoid.Source
         /// <summary>Creates an instance of <see cref="ObjSrcDocument"/></summary>
         public ObjSrcDocument()
         {
+            _HeaderStatements = new ObjSrcHeaderStatementList(this);
             _Root = new ObjSrcRoot(this);
         }
 
@@ -32,17 +34,26 @@ namespace Objectoid.Source
         /// <exception cref="ObjSrcException">A syntax error was found</exception>
         public void Load(Stream stream, Encoding encoding)
         {
+
             ObjSrcReader reader = null;
             try
             {
                 reader = new ObjSrcReader(stream, encoding, true);
 
+                _HeaderStatements.Clear();
             header:
                 reader.Read();
                 if (reader.Token.Type == ObjSrcReaderTokenType.None) goto header;
                 if (reader.Token.Type == ObjSrcReaderTokenType.Keyword)
                 {
                     if (reader.Token.Text == ObjSrcKeyword._Object) goto root;
+                    if (ObjSrcAttributeUtility.Heads.TryGet(reader.Token.Text, out var head))
+                    {
+                        var statement = head.Create();
+                        statement.Load_m(reader);
+                        _HeaderStatements.Add(statement);
+                        goto header;
+                    }
                     ObjSrcException.ThrowUnexpectedKeyword_m(reader.Token);
                 }
                 ObjSrcException.ThrowUnexpectedKeyword_m(reader.Token);
@@ -87,6 +98,8 @@ namespace Objectoid.Source
                 writer = new ObjSrcWriter(stream, encoding, true);
 
                 //Header
+                foreach (var statement in _HeaderStatements)
+                    statement.Save_m(writer);
                 
                 //Root
                 _Root.Save_m(writer);
@@ -101,5 +114,9 @@ namespace Objectoid.Source
         private readonly ObjSrcRoot _Root;
         /// <summary>Root object</summary>
         public ObjSrcRoot Root => _Root;
+
+        private readonly ObjSrcHeaderStatementList _HeaderStatements;
+        /// <summary>Header statements</summary>
+        public ObjSrcHeaderStatementList HeaderStatements => _HeaderStatements;
     }
 }

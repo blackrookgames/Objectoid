@@ -6,11 +6,15 @@
 
 
 
+
+
 Special Characters:
 #     Start of comment
 /     Indication to parse the next row along with the current row
 :     End of parse (useful for placing multiple parse blocks within the same row)
 \     Escape character for strings
+
+
 
 
 
@@ -31,6 +35,45 @@ Sequence     Description                 Unicode
 \u 	         Unicode escape sequence     0xHHHH (example: \u00F1 = "ñ")
 
 
+
+
+
+Header:
+
+Keywords:
+* @ProtocolPrefix     Declaration of a protocol prefix     @ProtocolPrefix <String>
+
+
+
+
+Protocol Prefix:
+
+Prefix to use when determining a protocol for an import block
+
+Example:
+ @ProtocolPrefix "Skin."
+ @Object
+ "summer skin" @Import "Summer"
+ @EndImport
+ "winter skin" @Import "Winter"
+ @EndImport
+ @EndObject
+Is the same as
+ @Object
+ "summer skin" @Import "Skin.Summer"
+ @EndImport
+ "winter skin" @Import "Skin.Winter"
+ @EndImport
+ @EndObject
+
+Remarks:
+Multiple Protocol Prefix statements can be used
+
+
+
+
+
+Element:
 
 Keywords:
 * @String        Declaration of string value                              @String <String> [<String> [<String> ... ]]
@@ -54,8 +97,6 @@ Keywords:
 * @EndObject     End of an object block                                   @EndObject
 * @EndList       End of an list block                                     @EndList
 * @EndImport     End of an import block                                   @EndImport
-
-
 
 Object example:
 @Object
@@ -81,7 +122,10 @@ Import example:
 
 
 
+
+
 Example:
+@ProtocolPrefix "Skin"
 @Object
 	"First Name" @String "John"
 	"Last Name" @String "Doe"

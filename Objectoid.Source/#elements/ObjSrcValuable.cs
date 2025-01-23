@@ -17,6 +17,10 @@ namespace Objectoid.Source
                     ObjSrcException.ThrowUnexpectedToken_m(reader.Token);
                 if (!TryParse_m(reader.Token.Text, out T value))
                     ObjSrcException.ThrowSyntaxError_m($"\"{reader.Token.Text}\" is not a valid {Desc_p} value.", reader.Token);
+
+                reader.Read();
+                reader.Token.ThrowIfNotEOL_m();
+
                 Value = value;
             }
             catch when (reader is null) { throw new ArgumentNullException(nameof(reader)); }

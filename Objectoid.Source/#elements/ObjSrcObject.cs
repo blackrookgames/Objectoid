@@ -73,7 +73,7 @@ namespace Objectoid.Source
                 foreach (var property in _Properties.Values)
                 {
                     //Name
-                    WriteStringToken(writer, property.Name.ToString());
+                    IObjSrcLoadSave.WriteStringToken(writer, property.Name.ToString());
                     writer.Write(' ');
                     //Value
                     property.Value.Save_m(writer);
@@ -255,7 +255,7 @@ namespace Objectoid.Source
                 try { _Properties.Add(name, property); }
                 catch (ArgumentException) { throw new ArgumentException("Object already contains a property with the same name.", nameof(name)); }
 
-                try { value.AddToCollection_m(Collection); }
+                try { value.AddToCollection_m(this); }
                 catch { _Properties.Remove(name); throw; }
             }
             catch (NotSupportedException) { H_ThrowArgumentNotCollectible_m(nameof(value)); }

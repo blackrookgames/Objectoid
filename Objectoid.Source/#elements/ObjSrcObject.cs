@@ -6,8 +6,9 @@ using System.IO;
 namespace Objectoid.Source
 {
     /// <summary>Represents an objectoid object source</summary>
-    [ObjSrcValidElement(ObjSrcKeyword._Object)]
-    public class ObjSrcObject : ObjSrcCollection, IEnumerable<ObjSrcObjectProperty>
+    [ObjSrcReadable(ObjSrcKeyword._Object)]
+    [ObjSrcDecodable(typeof(ObjDocObject))]
+    public class ObjSrcObject : ObjSrcCollection, IObjSrcDecodable<ObjDocObject>, IEnumerable<ObjSrcObjectProperty>
     {
         #region helper
 
@@ -84,6 +85,50 @@ namespace Objectoid.Source
             catch when (writer is null) { throw new ArgumentNullException(nameof(writer)); }
         }
 
+        /// <summary>Encodes the specified objectoid object</summary>
+        /// <param name="element">Objectoid object</param>
+        /// <param name="options">Import options</param>
+        /// 
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="element"/> is null
+        /// <br/>or<br/>
+        /// <paramref name="options"/> is null
+        /// </exception>
+        /// 
+        /// <exception cref="ObjSrcException">An import source contains invalid data</exception>
+        /// 
+        internal void Encode_m(ObjDocObject element, IObjSrcImportOptions options)
+        {
+            try
+            {
+                element.Clear();
+                foreach (var property in _Properties.Values)
+                    element.Add(property.Name, property.Value.CreateElement_m(options));
+            }
+            catch when (element is null) { throw new ArgumentNullException(nameof(element)); }
+            catch when (options is null) { throw new ArgumentException(nameof(options)); }
+        }
+
+        #endregion
+
+        #region IObjSrcDecodable
+
+        void IObjSrcDecodable<ObjDocObject>.Decode(ObjDocObject element)
+        {
+            try
+            {
+                Clear();
+
+                foreach (var property in element)
+                {
+                    if (!ObjSrcAttributeUtility.Decodables.TryGet(property.Value.GetType(), out var decodable))
+                        continue;
+                    Add(property.Name, CreateAndDecode_m(decodable, property.Value));
+                }
+            }
+            catch when (element is null) { throw new ArgumentNullException(nameof(element)); }
+        }
+
         #endregion
 
         #region IEnumerable
@@ -142,6 +187,18 @@ namespace Objectoid.Source
                 WriteEntries_m(writer, ObjSrcKeyword._EndObject);
             }
             catch when (writer is null) { throw new ArgumentNullException(nameof(writer)); }
+        }
+
+        /// <inheritdoc/>
+        internal override ObjElement CreateElement_m(IObjSrcImportOptions options)
+        {
+            try
+            {
+                var element = new ObjDocObject();
+                Encode_m(element, options);
+                return element;
+            }
+            catch when (options is null) { throw new ArgumentException(nameof(options)); }
         }
 
         private readonly Dictionary<ObjNTString, ObjSrcObjectProperty> _Properties;

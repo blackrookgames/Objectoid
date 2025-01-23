@@ -7,14 +7,30 @@ using Rookie;
 namespace Objectoid.Source
 {
     /// <summary>Represents an objectoid raw bytes source</summary>
-    [ObjSrcValidElement(ObjSrcKeyword._RawBytes)]
-    public class ObjSrcRawBytes : ObjSrcElement, IEnumerable<byte>
+    [ObjSrcReadable(ObjSrcKeyword._RawBytes)]
+    [ObjSrcDecodable(typeof(ObjRawBytesElement))]
+    public class ObjSrcRawBytes : ObjSrcElement, IObjSrcDecodable<ObjRawBytesElement>, IEnumerable<byte>
     {
         #region helper
 
         private static void H_ThrowIfNegative_m(int arg, string paramName)
         {
             if (arg < 0) throw new ArgumentOutOfRangeException(paramName, $"Value must be non-negative.");
+        }
+
+        #endregion
+
+        #region IObjSrcDecodable
+
+        void IObjSrcDecodable<ObjRawBytesElement>.Decode(ObjRawBytesElement element)
+        {
+            try
+            {
+                __Bytes = new byte[element.Length];
+                for (int i = 0; i < element.Length; i++)
+                    __Bytes[i] = element[i];
+            }
+            catch when (element is null) { throw new ArgumentNullException(nameof(element)); }
         }
 
         #endregion
@@ -89,7 +105,7 @@ namespace Objectoid.Source
                 if (__Bytes.Length == 0) writer.WriteLine();
                 else
                 {
-                    writer.WriteLine(" /");
+                    writer.WriteLine($" {ObjSrcSymbol._Stretch}");
                     writer.IncIndent();
 
                     var i = 0;
@@ -97,7 +113,7 @@ namespace Objectoid.Source
                     {
                         writer.Write($"0x{__Bytes[i++]:X2} ");
                         if (i == __Bytes.Length) break;
-                        if ((i % 16) == 0) writer.WriteLine("/");
+                        if ((i % 16) == 0) writer.WriteLine($"{ObjSrcSymbol._Stretch}");
                     }
 
                     writer.WriteLine();
@@ -105,6 +121,12 @@ namespace Objectoid.Source
                 }
             }
             catch when (writer is null) { throw new ArgumentNullException(nameof(writer)); }
+        }
+
+        /// <inheritdoc/>
+        internal override ObjElement CreateElement_m(IObjSrcImportOptions options)
+        {
+            return new ObjRawBytesElement(__Bytes);
         }
 
         private byte[] __Bytes;

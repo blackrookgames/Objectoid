@@ -6,9 +6,29 @@ using System.Text;
 namespace Objectoid.Source
 {
     /// <summary>Represents an objectoid object source</summary>
-    [ObjSrcValidElement(ObjSrcKeyword._List)]
-    public class ObjSrcList : ObjSrcCollection, IEnumerable<ObjSrcElement>
+    [ObjSrcReadable(ObjSrcKeyword._List)]
+    [ObjSrcDecodable(typeof(ObjList))]
+    public class ObjSrcList : ObjSrcCollection, IObjSrcDecodable<ObjList>, IEnumerable<ObjSrcElement>
     {
+        #region IObjSrcDecodable
+
+        void IObjSrcDecodable<ObjList>.Decode(ObjList element)
+        {
+            try
+            {
+                Clear();
+                foreach (var child in element)
+                {
+                    if (!ObjSrcAttributeUtility.Decodables.TryGet(child.GetType(), out var decodable))
+                        continue;
+                    Add(CreateAndDecode_m(decodable, child));
+                }
+            }
+            catch when (element is null) { throw new ArgumentNullException(nameof(element)); }
+        }
+
+        #endregion
+
         #region IEnumerable
 
         /// <summary>Gets an enumerator thru the list's elements</summary>
@@ -86,6 +106,19 @@ namespace Objectoid.Source
                 writer.WriteLine(ObjSrcKeyword._EndList);
             }
             catch when (writer is null) { throw new ArgumentNullException(nameof(writer)); }
+        }
+
+        /// <inheritdoc/>
+        internal override ObjElement CreateElement_m(IObjSrcImportOptions options)
+        {
+            try
+            {
+                var list = new ObjList();
+                foreach (var element in _Elements)
+                    list.Add(element.CreateElement_m(options));
+                return list;
+            }
+            catch when (options is null) { throw new ArgumentNullException(nameof(options)); }
         }
 
         private readonly List<ObjSrcElement> _Elements;

@@ -31,17 +31,40 @@ namespace Objectoid.Source
                 reader.Read();
                 if (reader.Token.Type != ObjSrcReaderTokenType.Keyword)
                     throw ObjSrcException.ThrowUnexpectedToken_m(reader.Token);
-                if (!ObjSrcValidElements.TryGet(reader.Token.Text, out var validElement))
+                if (!ObjSrcAttributeUtility.Readables.TryGet(reader.Token.Text, out var readable))
                     throw ObjSrcException.ThrowUnexpectedKeyword_m(reader.Token);
 
                 //Create and load
-                var instance = validElement.Create();
+                var instance = readable.Create();
                 instance.Load_m(reader);
 
                 //Return
                 return instance;
             }
             catch when (reader is null) { throw new ArgumentNullException(nameof(reader)); }
+        }
+
+        /// <summary>Creates an element source and decodes data from the specified element to the created element source</summary>
+        /// <param name="decodable">Decodable entry</param>
+        /// <param name="element">Element for decoding</param>
+        /// <returns>Created element source</returns>
+        /// 
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="decodable"/> is null
+        /// <br/>or<br/>
+        /// <paramref name="element"/> is null
+        /// </exception>
+        /// 
+        private protected ObjSrcElement CreateAndDecode_m(ObjSrcDecodable decodable, ObjElement element)
+        {
+            try
+            {
+                var iDecodable = decodable.Create();
+                iDecodable.Decode(element);
+                return (ObjSrcElement)iDecodable;
+            }
+            catch when (decodable is null) { throw new ArgumentNullException(nameof(decodable)); }
+            catch when (element is null) { throw new ArgumentNullException(nameof(element)); }
         }
 
         #endregion

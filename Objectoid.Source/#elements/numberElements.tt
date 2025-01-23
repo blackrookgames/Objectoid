@@ -1,0 +1,100 @@
+﻿<#@ template debug="true" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+using System;
+using Rookie;
+
+namespace Objectoid.Source
+{
+<# CreateClass(this, 1, "Bool", "bool", "boolean", tokenType: "Constant"); #>
+
+<# CreateClass(this, 1, "UInt8", "byte", "8-bit unsigned"); #>
+
+<# CreateClass(this, 1, "Int8", "sbyte", "8-bit signed"); #>
+
+<# CreateClass(this, 1, "UInt16", "ushort", "16-bit unsigned"); #>
+
+<# CreateClass(this, 1, "Int16", "short", "16-bit signed"); #>
+
+<# CreateClass(this, 1, "UInt32", "uint", "32-bit unsigned"); #>
+
+<# CreateClass(this, 1, "Int32", "int", "32-bit signed"); #>
+
+<# CreateClass(this, 1, "UInt64", "ulong", "64-bit unsigned"); #>
+
+<# CreateClass(this, 1, "Int64", "long", "64-bit signed"); #>
+
+<# CreateClass(this, 1, "Single", "float", "single-precision floating-point"); #>
+
+<# CreateClass(this, 1, "Double", "double", "double-precision floating-point"); #>
+}
+
+
+<#+
+	static void CreateClass(GeneratedTextTransformation text, int indent, string suffix, string literalName, string desc, string tokenType = null, string toString = null, string tryParse = null)
+	{
+		for (int i = 0; i < indent; i++) text.PushIndent("    ");
+		
+		text.WriteLine($"/// <summary>Represents an objectoid {desc} value source</summary>");
+		text.WriteLine($"[ObjSrcReadable(ObjSrcKeyword._{suffix})]");
+        text.WriteLine($"[ObjSrcDecodable(typeof(Obj{suffix}Element))]");
+        text.WriteLine($"public class ObjSrc{suffix} : ObjSrcValuable<{literalName}>, IObjSrcDecodable<Obj{suffix}Element>");
+        text.WriteLine($"{{");
+        text.PushIndent("    ");
+        
+        text.WriteLine($"#region IObjSrcDecodable");
+        text.WriteLine($"");
+        text.WriteLine($"void IObjSrcDecodable<Obj{suffix}Element>.Decode(Obj{suffix}Element element)");
+        text.WriteLine($"{{");
+        text.WriteLine($"    try {{ Value = element.Value; }}");
+        text.WriteLine($"    catch when (element is null) {{ throw new ArgumentNullException(nameof(element)); }}");
+        text.WriteLine($"}}");
+        text.WriteLine($"");
+        text.WriteLine($"#endregion");
+        text.WriteLine($"");
+        
+		text.WriteLine($"/// <summary>Creates an instance of <see cref=\"ObjSrc{suffix}\"/></summary>");
+        text.WriteLine($"public ObjSrc{suffix}() {{ }}");
+        text.WriteLine($"");
+
+        text.WriteLine($"/// <inheritdoc/>");
+        text.WriteLine($"internal override ObjElement CreateElement_m(IObjSrcImportOptions options)");
+        text.WriteLine($"{{");
+        text.WriteLine($"    return new Obj{suffix}Element(Value);");
+        text.WriteLine($"}}");
+
+        if (!(tokenType is null))
+        {
+            text.WriteLine($"/// <inheritdoc/>");
+            text.WriteLine($"private protected override ObjSrcReaderTokenType TokenType_p => ObjSrcReaderTokenType.{tokenType};");
+            text.WriteLine($"");
+        }
+
+        text.WriteLine($"/// <summary>Keyword</summary>");
+        text.WriteLine($"private protected override string Keyword_p => ObjSrcKeyword._{suffix};");
+        text.WriteLine($"");
+        
+        if (!(toString is null))
+        {
+            text.WriteLine($"/// <inheritdoc/>");
+            text.WriteLine($"private protected override string ToString_m(T value) => {toString};");
+            text.WriteLine($"");
+        }
+
+        if (tryParse is null) tryParse = $"Parser.TryTo{suffix}(s, out result)";
+        text.WriteLine($"/// <inheritdoc/>");
+        text.WriteLine($"private protected override bool TryParse_m(string s, out {literalName} result) => {tryParse};");
+        text.WriteLine($"");
+
+        text.WriteLine($"/// <inheritdoc/>");
+        text.WriteLine($"private protected override string Desc_p => \"{desc}\";");
+
+        text.PopIndent();
+        text.WriteLine($"}}");
+
+		for (int i = 0; i < indent; i++) text.PopIndent();
+	}
+#>

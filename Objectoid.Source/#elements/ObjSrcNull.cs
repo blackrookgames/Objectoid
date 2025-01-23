@@ -6,9 +6,16 @@ using System.Text;
 namespace Objectoid.Source
 {
     /// <summary>Represents an objectoid object source</summary>
-    [ObjSrcValidElement(ObjSrcKeyword._Null)]
-    public class ObjSrcNull : ObjSrcElement
+    [ObjSrcReadable(ObjSrcKeyword._Null)]
+    [ObjSrcDecodable(typeof(ObjNullElement))]
+    public class ObjSrcNull : ObjSrcElement, IObjSrcDecodable<ObjNullElement>
     {
+        #region IObjSrcDecodable
+
+        void IObjSrcDecodable<ObjNullElement>.Decode(ObjNullElement element) { }
+
+        #endregion
+
         /// <summary>Creates an instance of <see cref="ObjSrcNull"/></summary>
         public ObjSrcNull() { }
 
@@ -29,6 +36,12 @@ namespace Objectoid.Source
         {
             try { writer.WriteLine(ObjSrcKeyword._Null); }
             catch when (writer is null) { throw new ArgumentNullException(nameof(writer)); }
+        }
+
+        /// <inheritdoc/>
+        internal override ObjElement CreateElement_m(IObjSrcImportOptions options)
+        {
+            return new ObjNullElement();
         }
     }
 }

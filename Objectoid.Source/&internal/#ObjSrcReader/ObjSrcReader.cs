@@ -62,11 +62,6 @@ namespace Objectoid.Source
             _LeaveOpen = leaveOpen;
         }
 
-        private const char _KeywordS = '@';
-        private const char _CommentS = '#';
-        private const char _StretchS = '/';
-        private const char _SplitS = ':';
-
         #region fields
 
         private bool __Disposed;
@@ -185,7 +180,7 @@ namespace Objectoid.Source
                 ReadNext_m();
                 if (__Char == '\0') { __End = true; return false; }
                 if (__Char == '\r' || __Char == '\n') return false;
-                if (considerSplit && __Char == _SplitS) return false;
+                if (considerSplit && __Char == ObjSrcSymbol._Split) return false;
                 return true;
             } //Returns false if the end of the block has been reached; returns true otherwise
 
@@ -208,11 +203,11 @@ namespace Objectoid.Source
                 startRow = __Row;
                 startColumn = __Column;
                 //Comment
-                if (__Char == _CommentS) goto comment;
+                if (__Char == ObjSrcSymbol._Comment) goto comment;
                 //Stretch
-                if (__Char == _StretchS) goto stretch;
+                if (__Char == ObjSrcSymbol._Stretch) goto stretch;
                 //Keyword
-                if (__Char == _KeywordS) goto keyword;
+                if (__Char == ObjSrcSymbol._Keyword) goto keyword;
                 //Numeric
                 if (__Char == '-' || (__Char >= '0' && __Char <= '9')) goto numeric;
                 //String
@@ -240,7 +235,7 @@ namespace Objectoid.Source
                 yield return createToken(ObjSrcReaderTokenType.Keyword);
                 yield break;
             }
-            if (__Char <= 0x20 || __Char == _CommentS || __Char == _StretchS)
+            if (__Char <= 0x20 || __Char == ObjSrcSymbol._Comment || __Char == ObjSrcSymbol._Stretch)
             {
                 yield return createToken(ObjSrcReaderTokenType.Keyword);
                 goto none;
@@ -254,7 +249,7 @@ namespace Objectoid.Source
                 yield return createToken(ObjSrcReaderTokenType.Numeric);
                 yield break;
             }
-            if (__Char <= 0x20 || __Char == _CommentS || __Char == _StretchS)
+            if (__Char <= 0x20 || __Char == ObjSrcSymbol._Comment || __Char == ObjSrcSymbol._Stretch)
             {
                 yield return createToken(ObjSrcReaderTokenType.Numeric);
                 goto none;
@@ -309,7 +304,7 @@ namespace Objectoid.Source
                 yield return createToken(ObjSrcReaderTokenType.Constant);
                 yield break;
             }
-            if (__Char <= 0x20 || __Char == _CommentS || __Char == _StretchS)
+            if (__Char <= 0x20 || __Char == ObjSrcSymbol._Comment || __Char == ObjSrcSymbol._Stretch)
             {
                 yield return createToken(ObjSrcReaderTokenType.Constant);
                 goto none;

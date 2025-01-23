@@ -6,7 +6,7 @@ using System.Text;
 namespace Objectoid.Source
 {
     /// <summary>Represents an objectoid object source</summary>
-    [ObjSrcValidElement(ObjSrcKeyword._Import)]
+    [ObjSrcReadable(ObjSrcKeyword._Import)]
     public class ObjSrcImport : ObjSrcObject
     {
         /// <summary>Creates an instance of <see cref="ObjSrcImport"/></summary>
@@ -48,7 +48,31 @@ namespace Objectoid.Source
             catch when (writer is null) { throw new ArgumentNullException(nameof(writer)); }
         }
 
-        /// <summary>Name of protocol to use for importing</summary>
+        /// <inheritdoc/>
+        internal sealed override ObjElement CreateElement_m(IObjSrcImportOptions options)
+        {
+            try
+            {
+                if (options.Protocols.TryGet(Protocol, out var protocol))
+                {
+                    try
+                    {
+                        var encodedProperties = new ObjSrcImportEncodedPropertyCollection(this, options);
+                        return protocol.Import(encodedProperties, options);
+                    }
+                    catch (ObjSrcException e) when (e.SrcElement is null) { throw ObjSrcException.ThrowInvalidSource_m(this, e.BaseMessage); }
+                }
+                else
+                {
+                    if (options.ThrowIfUnknownProtocol)
+                        ObjSrcException.ThrowInvalidSource_m(this, $"The protocol \"{Protocol}\" is not supported.");
+                    return base.CreateElement_m(options);
+                }
+            }
+            catch when (options is null) { throw new ArgumentNullException(nameof(options)); }
+        }
+
+        /// <summary>Name of import protocol</summary>
         public string Protocol { get; set; }
     }
 }

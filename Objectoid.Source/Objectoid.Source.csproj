@@ -9,39 +9,50 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="integerElements.tt" />
+    <None Remove="numberElements.tt" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="#extensions\ObjDocument_ext.cs" />
-    <Compile Include="#internal\#ObjSrcReader\ObjSrcReaderState.cs" />
-    <Compile Include="#internal\#ObjSrcReader\ObjSrcReaderToken.cs" />
-    <Compile Include="#internal\#ObjSrcReader\ObjSrcReaderTokenType.cs" />
-    <Compile Include="#internal\#ObjSrcReader\ObjSrcReader.cs" />
-    <Compile Include="#internal\#ObjSrcWriter\ObjSrcWriter.cs" />
-    <Compile Include="#internal\ObjSrcValidElements.cs" />
-    <Compile Include="#internal\ObjSrcValidElement.cs" />
-    <Compile Include="#internal\ObjSrcValidElementAttribute.cs" />
-    <Compile Include="#internal\ObjSrcKeyword.cs" />
-    <Compile Include="integerElements.cs">
+    <Compile Include="#elements\numberElements.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>integerElements.tt</DependentUpon>
+      <DependentUpon>numberElements.tt</DependentUpon>
     </Compile>
+    <Compile Include="#ObjSrcImport\ObjSrcImportEncodedProperty.cs" />
+    <Compile Include="#ObjSrcImport\ObjSrcImportEncodedPropertyCollection.cs" />
+    <Compile Include="#ObjSrcImport\IObjSrcImportProtocolCollection.cs" />
+    <Compile Include="#ObjSrcImport\IObjSrcImportOptions.cs" />
+    <Compile Include="#ObjSrcImport\ObjSrcImportProtocolCollection.cs" />
+    <Compile Include="&amp;extensions\ObjDocument_ext.cs" />
+    <Compile Include="&amp;internal\&amp;attributes\ObjSrcAttribute.cs" />
+    <Compile Include="&amp;internal\&amp;attributes\ObjSrcAttributeUtility.Entry.cs" />
+    <Compile Include="&amp;internal\&amp;attributes\ObjSrcAttributeUtility.cs" />
+    <Compile Include="&amp;internal\#ObjSrcReader\ObjSrcReaderState.cs" />
+    <Compile Include="&amp;internal\#ObjSrcReader\ObjSrcReaderToken.cs" />
+    <Compile Include="&amp;internal\#ObjSrcReader\ObjSrcReaderTokenType.cs" />
+    <Compile Include="&amp;internal\#ObjSrcReader\ObjSrcReader.cs" />
+    <Compile Include="&amp;internal\#ObjSrcWriter\ObjSrcWriter.cs" />
+    <Compile Include="&amp;internal\&amp;attributes\ObjSrcAttributeEntry.cs" />
+    <Compile Include="&amp;internal\&amp;attributes\ObjSrcDecodable.cs" />
+    <Compile Include="&amp;internal\&amp;attributes\ObjSrcReadable.cs" />
+    <Compile Include="&amp;internal\ObjSrcSymbol.cs" />
+    <Compile Include="&amp;internal\ObjSrcKeyword.cs" />
+    <Compile Include="IObjSrcDecodable.cs" />
     <Compile Include="ObjSrcDocument.cs" />
-    <Compile Include="ObjSrcCollection.cs" />
-    <Compile Include="ObjSrcNTString.cs" />
-    <Compile Include="ObjSrcRawBytes.cs" />
-    <Compile Include="ObjSrcValuable.cs" />
-    <Compile Include="ObjSrcNull.cs" />
-    <Compile Include="ObjSrcList.cs" />
-    <Compile Include="ObjSrcImport.cs" />
-    <Compile Include="ObjSrcObjectProperty.cs" />
-    <Compile Include="ObjSrcRoot.cs" />
-    <Compile Include="ObjSrcString.cs" />
-    <Compile Include="ObjSrcObject.cs" />
+    <Compile Include="#elements\ObjSrcCollection.cs" />
+    <Compile Include="#elements\ObjSrcNTString.cs" />
+    <Compile Include="#elements\ObjSrcRawBytes.cs" />
+    <Compile Include="#elements\ObjSrcValuable.cs" />
+    <Compile Include="#elements\ObjSrcNull.cs" />
+    <Compile Include="#elements\ObjSrcList.cs" />
+    <Compile Include="#elements\ObjSrcImport.cs" />
+    <Compile Include="#elements\ObjSrcObjectProperty.cs" />
+    <Compile Include="#elements\ObjSrcRoot.cs" />
+    <Compile Include="#elements\ObjSrcString.cs" />
+    <Compile Include="#elements\ObjSrcObject.cs" />
     <Compile Include="ObjSrcException.cs" />
-    <Compile Include="ObjSrcElement.cs" />
+    <Compile Include="#elements\ObjSrcElement.cs" />
+    <Compile Include="#ObjSrcImport\ObjSrcImportProtocol.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\RookInfo.cs">
       <AutoGen>True</AutoGen>
@@ -50,15 +61,18 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="integerElements.tt">
+    <Content Include="#elements\numberElements.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>integerElements.cs</LastGenOutput>
+      <LastGenOutput>numberElements.cs</LastGenOutput>
     </Content>
     <Content Include="Properties\RookInfo.xml" />
     <Content Include="Properties\RookInfo.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>RookInfo.cs</LastGenOutput>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="&amp;internal\&amp;attributes\ObjSrcAttributeUtility.Collection.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Objectoid\Objectoid.csproj" />

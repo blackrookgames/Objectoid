@@ -66,8 +66,6 @@ namespace Objectoid.Source
 
         #endregion
 
-        #region load/save
-
         /// <summary>Loads from the specified objectoid-source reader</summary>
         /// <param name="reader">Objectoid-source reader</param>
         /// <exception cref="ArgumentNullException"><paramref name="reader"/> is null</exception>
@@ -84,13 +82,12 @@ namespace Objectoid.Source
         /// <exception cref="IOException">An I/O error occurs</exception>
         internal abstract void Save_m(ObjSrcWriter writer);
 
-        #endregion
-
-        #region encode/decode
-        
-
-
-        #endregion
+        /// <summary>Creates an objectoid element</summary>
+        /// <param name="options">Import options</param>
+        /// <returns>Created objectoid element</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="options"/> is null</exception>
+        /// <exception cref="ObjSrcException">An import source contains invalid data</exception>
+        internal abstract ObjElement CreateElement_m(IObjSrcImportOptions options);
 
         /// <summary>Whether or not the element can be a part of a collection</summary>
         public virtual bool IsCollectible => true;

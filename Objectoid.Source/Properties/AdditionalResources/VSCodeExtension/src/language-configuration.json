@@ -1,0 +1,19 @@
+{
+    "comments": {
+        "lineComment": "#"
+    },
+    "brackets": [
+        [ "@Object", "@EndObject" ],
+        [ "@List", "@EndList" ],
+        [ "@Import", "@EndImport" ]
+    ],
+    "autoClosingPairs": [
+        { "open": "\"", "close": "\"", "notIn": [ "string" ] }
+    ],
+    "surroundingPairs": [
+        { "open": "\"", "close": "\"" }
+    ],
+    "colorizedBracketPairs": [],
+    "folding": {},
+    "wordPattern": {}
+}

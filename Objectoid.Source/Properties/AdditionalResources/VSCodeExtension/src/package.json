@@ -1,0 +1,26 @@
+{
+	"name": "src",
+	"displayName": "%displayName%",
+	"description": "%description%",
+	"version": "1.0.0",
+	"publisher": "vscode",
+	"license": "MIT",
+	"engines": {"vscode":"*"},
+	"categories": ["Programming Languages"],
+	"contributes": {
+		"languages": [
+			{
+				"id":"src",
+				"extensions": [ ".src" ],
+				"configuration": "./language-configuration.json"
+			}
+		],
+		"grammars": [
+			{
+				"language": "src",
+				"scopeName": "text.src",
+				"path": "./syntaxes/src.tmLanguage.json"
+			}
+		]
+	}
+}

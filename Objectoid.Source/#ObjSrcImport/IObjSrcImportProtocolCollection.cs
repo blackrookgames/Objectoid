@@ -30,38 +30,4 @@ namespace Objectoid.Source
         /// <exception cref="ArgumentNullException"><paramref name="name"/> is null</exception>
         bool TryGet(string name, out ObjSrcImportProtocol protocol);
     }
-
-    /// <summary>Represents a generic collection of import protocols</summary>
-    /// <typeparam name="TOptions">Option type</typeparam>
-    /// <typeparam name="TProtocol">Protocol base type</typeparam>
-    public interface IObjSrcImportProtocolCollection<TOptions, TProtocol> : IObjSrcImportProtocolCollection
-        where TOptions: IObjSrcImportOptions<TOptions, TProtocol>
-        where TProtocol: ObjSrcImportProtocol<TOptions, TProtocol>
-    {
-        #region IObjSrcImportProtocolCollection
-
-        IEnumerator<ObjSrcImportProtocol> IObjSrcImportProtocolCollection.GetEnumerator() => GetEnumerator();
-
-        bool IObjSrcImportProtocolCollection.TryGet(string name, out ObjSrcImportProtocol protocol)
-        {
-            if (TryGet(name, out var rawProtocol))
-            {
-                protocol = rawProtocol;
-                return true;
-            }
-            else
-            {
-                protocol = null;
-                return false;
-            }
-        }
-
-        #endregion
-
-        /// <inheritdoc cref="IObjSrcImportProtocolCollection.GetEnumerator"/>
-        new IEnumerator<TProtocol> GetEnumerator();
-
-        /// <inheritdoc cref="IObjSrcImportProtocolCollection.TryGet"/>
-        bool TryGet(string name, out TProtocol protocol);
-    }
 }

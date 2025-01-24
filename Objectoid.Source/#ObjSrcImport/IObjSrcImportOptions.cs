@@ -13,21 +13,4 @@ namespace Objectoid.Source
         /// <summary>Import protocols</summary>
         IObjSrcImportProtocolCollection Protocols { get; }
     }
-
-    /// <summary>Generic interface for representing the import options for encoding an objectoid-document</summary>
-    /// <typeparam name="TOptions">Option type</typeparam>
-    /// <typeparam name="TProtocol">Protocol base type</typeparam>
-    public interface IObjSrcImportOptions<TOptions, TProtocol> : IObjSrcImportOptions
-        where TOptions : IObjSrcImportOptions<TOptions, TProtocol>
-        where TProtocol : ObjSrcImportProtocol<TOptions, TProtocol>
-    {
-        #region IObjSrcImportOptions
-
-        IObjSrcImportProtocolCollection IObjSrcImportOptions.Protocols => Protocols;
-
-        #endregion
-
-        /// <inheritdoc cref="IObjSrcImportOptions.Protocols"/>
-        new IObjSrcImportProtocolCollection<TOptions, TProtocol> Protocols { get; }
-    }
 }

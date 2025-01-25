@@ -30,10 +30,6 @@ namespace Objectoid.Source
         /// <paramref name="options"/> is null
         /// </exception>
         /// 
-        /// <exception cref="ArgumentException">
-        /// <paramref name="options"/> is not of a supported type
-        /// </exception>
-        /// 
         /// <exception cref="ObjSrcException">
         /// An import source contains invalid data
         /// </exception>

@@ -37,7 +37,7 @@ namespace Objectoid.Source
                         stringBuilder.Append(reader.Token.Text);
                         continue;
                     }
-                    ObjSrcException.ThrowUnexpectedToken_m(reader.Token);
+                    ObjSrcReaderException.ThrowUnexpectedToken(reader.Token);
                 }
 
                 Value = stringBuilder.ToString();

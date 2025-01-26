@@ -15,7 +15,7 @@ namespace Objectoid.Source
             {
                 reader.Read();
                 if (reader.Token.Type != ObjSrcReaderTokenType.String)
-                    ObjSrcException.ThrowUnexpectedToken_m(reader.Token);
+                    ObjSrcReaderException.ThrowUnexpectedToken(reader.Token);
                 var value = reader.Token.Text;
 
                 reader.Read();

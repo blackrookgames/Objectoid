@@ -20,7 +20,7 @@ namespace Objectoid.Source
                 //Find protocol
                 reader.Read();
                 if (reader.Token.Type != ObjSrcReaderTokenType.String)
-                    ObjSrcException.ThrowUnexpectedToken_m(reader.Token);
+                    ObjSrcReaderException.ThrowUnexpectedToken(reader.Token);
                 Protocol = reader.Token.Text;
 
                 //Ensure only whitespace follows protocol
@@ -75,12 +75,15 @@ namespace Objectoid.Source
                         var encodedProperties = new ObjSrcImportEncodedPropertyCollection(this, options);
                         return protocol.Import(encodedProperties, options);
                     }
-                    catch (ObjSrcException e) when (e.SrcElement is null) { throw ObjSrcException.ThrowInvalidSource_m(this, e.BaseMessage); }
+                    catch (ObjSrcSrcElementException e)
+                    {
+                        throw new ObjSrcSrcElementException(this, e.Message);
+                    }
                 }
                 else
                 {
                     if (options.ThrowIfUnknownProtocol)
-                        ObjSrcException.ThrowInvalidSource_m(this, $"The protocol \"{Protocol}\" is not supported.");
+                        throw new ObjSrcSrcElementException(this, $"The protocol \"{Protocol}\" is not supported.");
                     return base.CreateElement_m(options);
                 }
             }

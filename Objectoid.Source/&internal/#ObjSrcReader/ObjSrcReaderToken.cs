@@ -42,7 +42,7 @@ namespace Objectoid.Source
         internal void ThrowIfNotEOL_m()
         {
             if (Type != ObjSrcReaderTokenType.None)
-                ObjSrcException.ThrowUnexpectedToken_m(this);
+                ObjSrcReaderException.ThrowUnexpectedToken(this);
         }
 
         #endregion

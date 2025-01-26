@@ -14,9 +14,9 @@ namespace Objectoid.Source
             {
                 reader.Read();
                 if (reader.Token.Type != TokenType_p)
-                    ObjSrcException.ThrowUnexpectedToken_m(reader.Token);
+                    ObjSrcReaderException.ThrowUnexpectedToken(reader.Token);
                 if (!TryParse_m(reader.Token.Text, out T value))
-                    ObjSrcException.ThrowSyntaxError_m($"\"{reader.Token.Text}\" is not a valid {Desc_p} value.", reader.Token);
+                    new ObjSrcReaderException($"\"{reader.Token.Text}\" is not a valid {Desc_p} value.", reader.Token);
 
                 reader.Read();
                 reader.Token.ThrowIfNotEOL_m();

@@ -28,9 +28,9 @@ namespace Objectoid.Source
             {
                 reader.Read();
                 if (reader.Token.Type != ObjSrcReaderTokenType.String)
-                    ObjSrcException.ThrowUnexpectedToken_m(reader.Token);
+                    ObjSrcReaderException.ThrowUnexpectedToken(reader.Token);
                 if (!ObjNTString.TryParse(reader.Token.Text, out var value))
-                    ObjSrcException.ThrowSyntaxError_m($"\"{reader.Token.Text}\" is not a valid null-terminated string value.", reader.Token);
+                    new ObjSrcReaderException($"\"{reader.Token.Text}\" is not a valid null-terminated string value.", reader.Token);
 
                 reader.Read();
                 reader.Token.ThrowIfNotEOL_m();

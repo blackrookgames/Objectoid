@@ -85,7 +85,7 @@ namespace Objectoid.Source
                         Add(LoadElement_m(reader));
                         continue;
                     }
-                    ObjSrcException.ThrowUnexpectedToken_m(reader.Token);
+                    ObjSrcReaderException.ThrowUnexpectedToken(reader.Token);
                 }
             }
             catch when (reader is null) { throw new ArgumentNullException(nameof(reader)); }

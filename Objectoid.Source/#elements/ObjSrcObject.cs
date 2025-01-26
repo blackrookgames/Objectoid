@@ -32,9 +32,9 @@ namespace Objectoid.Source
                     {
                         //Name
                         if (!ObjNTString.TryParse(reader.Token.Text, out var propertyName))
-                            ObjSrcException.ThrowSyntaxError_m($"\"{reader.Token.Text}\" is not a valid property name.", reader.Token);
+                            new ObjSrcReaderException($"\"{reader.Token.Text}\" is not a valid property name.", reader.Token);
                         if (_Properties.ContainsKey(propertyName))
-                            ObjSrcException.ThrowSyntaxError_m($"Object already contains a property with the name \"{propertyName}\".", reader.Token);
+                            new ObjSrcReaderException($"Object already contains a property with the name \"{propertyName}\".", reader.Token);
                         //Value
                         ObjSrcElement propertyValue = LoadElement_m(reader);
                         //Add
@@ -45,14 +45,14 @@ namespace Objectoid.Source
                     if (reader.Token.Type == ObjSrcReaderTokenType.Keyword)
                     {
                         if (reader.Token.Text != endKeyword)
-                            ObjSrcException.ThrowUnexpectedKeyword_m(reader.Token);
+                            ObjSrcReaderException.ThrowUnexpectedKeyword(reader.Token);
                         //Ensure only whitespace follows
                         reader.Read();
                         reader.Token.ThrowIfNotEOL_m();
                         //Break
                         break;
                     }
-                    ObjSrcException.ThrowUnexpectedToken_m(reader.Token);
+                    ObjSrcReaderException.ThrowUnexpectedToken(reader.Token);
                 }
             }
             catch when (reader is null) { throw new ArgumentNullException(nameof(reader)); }

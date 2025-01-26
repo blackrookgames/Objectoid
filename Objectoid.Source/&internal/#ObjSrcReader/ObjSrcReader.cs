@@ -215,7 +215,7 @@ namespace Objectoid.Source
                 //Constant
                 if ((__Char >= 'A' && __Char <= 'Z') || (__Char >= 'a' && __Char <= 'z')) goto constant;
                 //Unexpected
-                ObjSrcException.ThrowSyntaxError_m($"The character '{__Char}' was unexpected.", __Row, __Column);
+                new ObjSrcReaderException($"The character '{__Char}' was unexpected.", __Row, __Column);
             }
             if (!readNext(true)) yield break;
             goto none;
@@ -288,11 +288,11 @@ namespace Objectoid.Source
                         if (__Char >= '0' && __Char <= '9') { unicode |= __Char - '0'; continue; }
                         if (__Char >= 'A' && __Char <= 'F') { unicode |= 0x10 + __Char - 'A'; continue; }
                         if (__Char >= 'a' && __Char <= 'f') { unicode |= 0x10 + __Char - 'a'; continue; }
-                        throw ObjSrcException.ThrowSyntaxError_m($"The character '{__Char}' was unexpected within the unicode sequence.", __Row, __Column);
+                        throw new ObjSrcReaderException($"The character '{__Char}' was unexpected within the unicode sequence.", __Row, __Column);
                     }
                     __Char = (char)unicode;
                 }
-                else ObjSrcException.ThrowSyntaxError_m($"The escape sequence '\\{__Char}' is unrecognized.", __Row, __Column);
+                else new ObjSrcReaderException($"The escape sequence '\\{__Char}' is unrecognized.", __Row, __Column);
             }
             _StringBuilder.Append(__Char);
             goto @string;
@@ -312,7 +312,7 @@ namespace Objectoid.Source
             goto constant;
 
             unexpectedEndOfLine:
-            ObjSrcException.ThrowSyntaxError_m("The line ends unexpectedly.", __Row, __Column);
+            new ObjSrcReaderException("The line ends unexpectedly.", __Row, __Column);
         }
 
 

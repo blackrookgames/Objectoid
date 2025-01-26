@@ -30,9 +30,9 @@ namespace Objectoid.Source
                 //Identify element type
                 reader.Read();
                 if (reader.Token.Type != ObjSrcReaderTokenType.Keyword)
-                    throw ObjSrcException.ThrowUnexpectedToken_m(reader.Token);
+                    throw ObjSrcReaderException.ThrowUnexpectedToken(reader.Token);
                 if (!ObjSrcAttributeUtility.Readables.TryGet(reader.Token.Text, out var readable))
-                    throw ObjSrcException.ThrowUnexpectedKeyword_m(reader.Token);
+                    throw ObjSrcReaderException.ThrowUnexpectedKeyword(reader.Token);
 
                 //Create and load
                 var instance = readable.Create();

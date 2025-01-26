@@ -26,6 +26,10 @@
     <Compile Include="#ObjSrcImport\IObjSrcImportProtocolCollection.cs" />
     <Compile Include="#ObjSrcImport\IObjSrcImportOptions.cs" />
     <Compile Include="#ObjSrcImport\ObjSrcImportProtocolCollection.cs" />
+    <Compile Include="&amp;exceptions\ObjSrcElementException.cs" />
+    <Compile Include="&amp;exceptions\ObjSrcSrcElementException.cs" />
+    <Compile Include="&amp;exceptions\ObjSrcReaderException.cs" />
+    <Compile Include="&amp;exceptions\ObjSrcException.cs" />
     <Compile Include="&amp;extensions\ObjDocument_ext.cs" />
     <Compile Include="&amp;internal\&amp;attributes\ObjSrcAttribute.cs" />
     <Compile Include="&amp;internal\&amp;attributes\ObjSrcAttributeUtility.Entry.cs" />
@@ -42,6 +46,11 @@
     <Compile Include="&amp;internal\IObjSrcLoadSave.cs" />
     <Compile Include="&amp;internal\ObjSrcSymbol.cs" />
     <Compile Include="&amp;internal\ObjSrcKeyword.cs" />
+    <Compile Include="ElementUtility\ObjSrcImportEncodedPropertyCollection_ext.cs" />
+    <Compile Include="ElementUtility\ObjSrcObject_ext.cs" />
+    <Compile Include="ElementUtility\ObjDocObject_ext.cs" />
+    <Compile Include="ElementUtility\ObjSrcElement_ext.cs" />
+    <Compile Include="ElementUtility\ObjElement_ext.cs" />
     <Compile Include="IObjSrcDecodable.cs" />
     <Compile Include="ObjSrcDocument.cs" />
     <Compile Include="#elements\ObjSrcCollection.cs" />
@@ -55,7 +64,6 @@
     <Compile Include="#elements\ObjSrcRoot.cs" />
     <Compile Include="#elements\ObjSrcString.cs" />
     <Compile Include="#elements\ObjSrcObject.cs" />
-    <Compile Include="ObjSrcException.cs" />
     <Compile Include="#elements\ObjSrcElement.cs" />
     <Compile Include="#ObjSrcImport\ObjSrcImportProtocol.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -96,7 +104,7 @@
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v17.0\TextTemplating\Microsoft.TextTemplating.targets" />
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+  <Target Name="PreBuild" AfterTargets="PreBuildEvent">
     <Exec Command="set addResSrcDir=$(ProjectDir)Properties\AdditionalResources\&#xD;&#xA;set addResDstDir=$(TargetDir)AdditionalResources\&#xD;&#xA;if not exist %25addResDstDir%25 md %25addResDstDir%25&#xD;&#xA;xcopy %25addResSrcDir%25 %25addResDstDir%25 /s /q /y" />
   </Target>
 </Project>

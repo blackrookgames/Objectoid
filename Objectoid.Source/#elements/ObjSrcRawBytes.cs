@@ -84,11 +84,11 @@ namespace Objectoid.Source
                     if (reader.Token.Type == ObjSrcReaderTokenType.Numeric)
                     {
                         if (!Parser.TryToUInt8(reader.Token.Text, out var @byte))
-                            ObjSrcException.ThrowSyntaxError_m($"\"{reader.Token.Text}\" is not a valid byte value.", reader.Token);
+                            new ObjSrcReaderException($"\"{reader.Token.Text}\" is not a valid byte value.", reader.Token);
                         bytes.Add(@byte);
                         continue;
                     }
-                    ObjSrcException.ThrowUnexpectedToken_m(reader.Token);
+                    ObjSrcReaderException.ThrowUnexpectedToken(reader.Token);
                 }
 
                 __Bytes = bytes.ToArray();

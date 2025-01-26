@@ -54,9 +54,9 @@ namespace Objectoid.Source
                         _HeaderStatements.Add(statement);
                         goto header;
                     }
-                    ObjSrcException.ThrowUnexpectedKeyword_m(reader.Token);
+                    ObjSrcReaderException.ThrowUnexpectedKeyword(reader.Token);
                 }
-                ObjSrcException.ThrowUnexpectedKeyword_m(reader.Token);
+                ObjSrcReaderException.ThrowUnexpectedKeyword(reader.Token);
 
             root:
                 _Root.Load_m(reader);

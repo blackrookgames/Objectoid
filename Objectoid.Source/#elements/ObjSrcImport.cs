@@ -75,7 +75,7 @@ namespace Objectoid.Source
                         var encodedProperties = new ObjSrcImportEncodedPropertyCollection(this, options);
                         return protocol.Import(encodedProperties, options);
                     }
-                    catch (ObjSrcSrcElementException e)
+                    catch (ObjSrcException e)
                     {
                         throw new ObjSrcSrcElementException(this, e.Message);
                     }

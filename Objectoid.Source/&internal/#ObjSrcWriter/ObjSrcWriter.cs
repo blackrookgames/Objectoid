@@ -11,7 +11,7 @@ namespace Objectoid.Source
 
         protected virtual void H_Dispose_m(bool disposing)
         {
-            if (!__Disposed) return;
+            if (__Disposed) return;
 
             if (disposing && !_LeaveOpen)
             {

@@ -70,7 +70,7 @@ namespace Objectoid.Source
             catch when (stream is null) { throw new ArgumentNullException(nameof(stream)); }
             catch when (encoding is null) { throw new ArgumentNullException(nameof(encoding)); }
             catch when (!stream.CanRead) { throw new ArgumentException("The specified stream does not support reading.", nameof(stream)); }
-            catch (ObjectDisposedException) { throw new ObjectDisposedException("The specified stream has already been disposed."); }
+            catch (ObjectDisposedException) { throw new ObjectDisposedException(nameof(stream)); }
             catch (EndOfStreamException) { throw new ObjSrcException("Stream ends before all data is found."); }
             finally { reader?.Dispose(); }
         }
@@ -107,7 +107,7 @@ namespace Objectoid.Source
             catch when (stream is null) { throw new ArgumentNullException(nameof(stream)); }
             catch when (encoding is null) { throw new ArgumentNullException(nameof(encoding)); }
             catch when (!stream.CanWrite) { throw new ArgumentException("The specified stream does not support writing.", nameof(stream)); }
-            catch (ObjectDisposedException) { throw new ObjectDisposedException("The specified stream has already been disposed."); }
+            catch (ObjectDisposedException) { throw new ObjectDisposedException(nameof(stream)); }
             finally { writer?.Dispose(); }
         }
 

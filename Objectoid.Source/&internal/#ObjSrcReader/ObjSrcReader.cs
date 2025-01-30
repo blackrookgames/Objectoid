@@ -22,7 +22,7 @@ namespace Objectoid.Source
 
         private void H_ThrowIfDisposed_m()
         {
-            if (__Disposed) throw new ObjectDisposedException("The reader has already been disposed.");
+            if (__Disposed) throw new ObjectDisposedException(nameof(ObjSrcReader));
         }
 
         #endregion

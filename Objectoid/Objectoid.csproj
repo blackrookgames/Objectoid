@@ -50,6 +50,7 @@
     </Compile>
     <Compile Include="readwrite\read\10ObjReader.cs" />
     <Compile Include="readwrite\write\10ObjWriter.cs" />
+    <Compile Include="utility\RWUtility.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="50ObjIFBElement.values.tt">

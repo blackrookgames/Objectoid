@@ -1,11 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Xml.Linq;
 
 namespace Objectoid
 {
@@ -18,6 +14,100 @@ namespace Objectoid
             _RootObject = new ObjRootObject(this);
         }
 
+        #region Header
+
+        private void ResetHeader_m()
+        {
+            Identifier = null;
+        }
+
+        private void SaveHeader_m(ObjWriter writer)
+        {
+            void fixOffset(long pos)
+            {
+                var offset = writer.Stream.Position;
+                writer.Stream.Position = pos;
+                writer.WriteInt32((int)offset);
+                writer.Stream.Position = offset;
+            }
+            void fixLength(long pos)
+            {
+                var offset = writer.Stream.Position;
+                writer.Stream.Position = pos;
+                writer.WriteUInt16((ushort)(offset - pos));
+                writer.Stream.Position = offset;
+            }
+
+            try
+            {
+                var pos_HeaderLength = writer.Stream.Position;
+                writer.WriteUInt16(0);
+
+                #region write header
+
+                //Identifier
+                var pos_Identifier = writer.Stream.Position;
+                writer.WriteInt32(0);
+
+                #endregion
+
+                fixLength(pos_HeaderLength);
+
+                #region fix header
+
+                //Identifier
+                fixOffset(pos_Identifier);
+                RWUtility.WriteString(writer, Identifier);
+
+                #endregion
+            }
+            catch when (writer is null) { throw new ArgumentNullException(nameof(writer)); }
+        }
+
+        private void LoadHeader_m(ObjReader reader)
+        {
+            try
+            {
+                ResetHeader_m();
+
+                var headerStart = reader.Stream.Position;
+                var headerLength = reader.ReadUInt16();
+                var headerEnd = headerStart + headerLength;
+                bool endOfHeader() //Returns true if the end of the header was surpassed
+                {
+                    if (reader.Stream.Position <= headerEnd)
+                        return false;
+                    reader.Stream.Position = headerEnd;
+                    return true;
+                }
+
+                long returnPos = 0;
+                bool readOffset() //Returns true if the end of the header was surpassed
+                {
+                    var offset = reader.ReadInt32();
+                    if (endOfHeader()) return true;
+                    returnPos = reader.Stream.Position;
+                    reader.Stream.Position = offset;
+                    return false;
+                }
+
+                #region read header
+
+                //Identifier
+                if (readOffset()) return;
+                Identifier = RWUtility.ReadString(reader);
+                reader.Stream.Position = returnPos;
+
+                #endregion
+            }
+            catch when (reader is null) { throw new ArgumentNullException(nameof(reader)); }
+        }
+
+        /// <summary>Identifier for the document</summary>
+        public string Identifier { get; set; }
+
+        #endregion
+
         #region RootObject
 
         private readonly ObjRootObject _RootObject;
@@ -26,6 +116,10 @@ namespace Objectoid
         public ObjRootObject RootObject => _RootObject;
 
         #endregion
+
+        private const byte _FB_IntLilEn = 0b_0000_0001;
+        private const byte _FB_FloatLilEn = 0b_0000_0010;
+        private const byte _FB_HasHeader = 0b_0000_0100;
 
         /// <summary>Saves the document to the specified stream</summary>
         /// <param name="stream">Stream</param>
@@ -46,13 +140,17 @@ namespace Objectoid
 
             //Flag byte
             byte flagByte = 0;
-            if (intIsLittleEndian) flagByte |= 0b_0001;
-            if (floatIsLittleEndian) flagByte |= 0b_0010;
+            if (intIsLittleEndian) flagByte |= _FB_IntLilEn;
+            if (floatIsLittleEndian) flagByte |= _FB_FloatLilEn;
+            flagByte |= _FB_HasHeader;
             writer.WriteUInt8(flagByte);
 
             //Root object (placeholder)
             long mainObjRefPosition = stream.Position;
             writer.WriteInt32(0);
+
+            //Header
+            SaveHeader_m(writer);
 
             //Find all addressables and property names
             HashSet<ObjCollection> collections = new HashSet<ObjCollection>(); //Collections will be ordered by dependency
@@ -170,12 +268,16 @@ namespace Objectoid
 
             //Flag byte
             byte flagByte = reader.ReadUInt8();
-            reader.SetIntIsLittleEndian((flagByte & 0b_0001) != 0);
-            reader.SetFloatIsLittleEndian((flagByte & 0b_0010) != 0);
+            reader.SetIntIsLittleEndian((flagByte & _FB_IntLilEn) != 0);
+            reader.SetFloatIsLittleEndian((flagByte & _FB_FloatLilEn) != 0);
+            var hasHeader = (flagByte & _FB_HasHeader) != 0;
 
             //Root object
             int firstAddress = reader.ReadAddress();
-            
+
+            //Header
+            if (hasHeader) LoadHeader_m(reader);
+
             //Objects
             reader.Stream.Position = firstAddress;
             _RootObject.Read_m(reader);

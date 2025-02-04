@@ -36,6 +36,77 @@ namespace Objectoid.Source
 
         #endregion
 
+        #region helper
+
+        /// <summary>Resets the document header</summary>
+        /// <param name="document">Objectoid document</param>
+        /// <exception cref="ArgumentNullException"><paramref name="document"/> is null</exception>
+        private static void ResetHeader_m(ObjDocument document)
+        {
+            try
+            {
+                document.Identifier = null;
+            }
+            catch when (document is null) { throw new ArgumentNullException(nameof(document)); }
+        }
+
+        /// <summary>Decodes the document header</summary>
+        /// <param name="document">Objectoid document</param>
+        /// <param name="source">Objectoid source document</param>
+        /// 
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="document"/> is null
+        /// <br/>or<br/>
+        /// <paramref name="source"/> is null
+        /// </exception>
+        /// 
+        private static void DecodeHeader(this ObjDocument document, ObjSrcDocument source)
+        {
+            try
+            {
+                source.HeaderStatements.Clear();
+
+                //Identifier
+                var srcIdentifier = new ObjSrcIdentifier();
+                srcIdentifier.Value = document.Identifier;
+                source.HeaderStatements.Add(srcIdentifier);
+            }
+            catch when (document is null) { throw new ArgumentNullException(nameof(document)); }
+            catch when (source is null) { throw new ArgumentNullException(nameof(source)); }
+        }
+
+        /// <summary>Encodes the document header</summary>
+        /// <param name="document">Objectoid document</param>
+        /// <param name="source">Objectoid source document</param>
+        /// 
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="document"/> is null
+        /// <br/>or<br/>
+        /// <paramref name="source"/> is null
+        /// </exception>
+        /// 
+        private static void EncodeHeader(this ObjDocument document, ObjSrcDocument source)
+        {
+            try
+            {
+                ResetHeader_m(document);
+
+                foreach (var statement in source.HeaderStatements)
+                {
+                    //Identifier
+                    if (statement is ObjSrcIdentifier)
+                    {
+                        var srcIdentifier = (ObjSrcIdentifier)statement;
+                        document.Identifier = srcIdentifier.Value;
+                    }
+                }
+            }
+            catch when (document is null) { throw new ArgumentNullException(nameof(document)); }
+            catch when (source is null) { throw new ArgumentNullException(nameof(source)); }
+        }
+
+        #endregion
+
         private readonly static DefaultImportOptions_ _DefaultImportOptions = new DefaultImportOptions_();
 
         /// <summary>Decodes the objectoid document to the specified objectoid source document</summary>
@@ -50,7 +121,11 @@ namespace Objectoid.Source
         /// 
         public static void Decode(this ObjDocument document, ObjSrcDocument source)
         {
-            try { ((IObjSrcDecodable)source.Root).Decode(document.RootObject); }
+            try
+            {
+                DecodeHeader(document, source);
+                ((IObjSrcDecodable)source.Root).Decode(document.RootObject);
+            }
             catch when (document is null) { throw new ArgumentNullException(nameof(document)); }
             catch when (source is null) { throw new ArgumentNullException(nameof(source)); }
         }
@@ -86,7 +161,11 @@ namespace Objectoid.Source
         public static void Encode(this ObjDocument document, ObjSrcDocument source, IObjSrcImportOptions options)
         {
             if (options is null) options = _DefaultImportOptions;
-            try { source.Root.Encode_m(document.RootObject, options); }
+            try
+            {
+                EncodeHeader(document, source);
+                source.Root.Encode_m(document.RootObject, options);
+            }
             catch when (document is null) { throw new ArgumentNullException(nameof(document)); }
             catch when (source is null) { throw new ArgumentNullException(nameof(source)); }
         }

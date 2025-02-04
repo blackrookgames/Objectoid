@@ -11,6 +11,9 @@ namespace Objectoid
         ///<summary>Declaration of protocol prefix</summary>
         public const string _ProtocolPrefix = "@ProtocolPrefix";
 
+        ///<summary>Declaration of identifier</summary>
+        public const string _Identifier = "@Identifier";
+
         #endregion
 
         #region element

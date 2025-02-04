@@ -12,14 +12,7 @@ namespace Objectoid
         /// <inheritdoc/>
         internal override void Read_m(ObjReader objReader)
         {
-            List<byte> chars = new List<byte>();
-            while (true)
-            {
-                byte c = objReader.ReadUInt8();
-                if (c == 0x00) break;
-                chars.Add(c);
-            }
-            Value_p = new ObjNTString(chars.ToArray());
+            Value_p = RWUtility.ReadNTString(objReader);
         }
 
         #endregion
@@ -29,16 +22,7 @@ namespace Objectoid
         /// <inheritdoc/>
         private protected override void Write__m(ObjWriter objWriter)
         {
-            if (Value_p is null)
-            {
-                objWriter.WriteUInt8(0);
-            }
-            else
-            {
-                foreach (byte c in Value_p)
-                    objWriter.WriteUInt8(c);
-                objWriter.WriteUInt8(0);
-            }
+            RWUtility.WriteNTString(objWriter, Value_p);
         }
 
         #endregion

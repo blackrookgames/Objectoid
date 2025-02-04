@@ -20,6 +20,7 @@
       <DependentUpon>numberElements.tt</DependentUpon>
     </Compile>
     <Compile Include="#headerStatements\ObjSrcHeaderStatementList.cs" />
+    <Compile Include="#headerStatements\ObjSrcIdentifier.cs" />
     <Compile Include="#headerStatements\ObjSrcProtocolPrefix.cs" />
     <Compile Include="#headerStatements\ObjSrcHeaderStatement.cs" />
     <Compile Include="#ObjSrcImport\ObjSrcImportEncodedProperty.cs" />

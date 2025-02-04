@@ -1,0 +1,223 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+using System;
+
+namespace Objectoid.Source.ElementUtility
+{
+    public static partial class ObjSrcImportEncodedPropertyCollection_ext
+    {
+<# PushIndent(this, 2); #>
+<# Write(this, "Source", "source", "Src", "source"); #>
+
+<# Write(this, "Encoded", "encoded", "", "encoded"); #>
+<# PopIndent(this, 2); #>
+    }
+}
+
+<#+
+    static void PushIndent(GeneratedTextTransformation text, int indent) { for (int i = 0; i < indent; i++) text.PushIndent("    "); }
+    static void PopIndent(GeneratedTextTransformation text, int indent) { for (int i = 0; i < indent; i++) text.PopIndent(); }
+
+    static void Write(GeneratedTextTransformation text, string uPrefix, string lPrefix, string tPrefix, string desc)
+    {
+        text.WriteLine($"#region {uPrefix}Element");
+        text.WriteLine($"");
+        text.WriteLine($"#region Get{uPrefix}Element(ObjNTString)");
+        text.WriteLine($"");
+        text.WriteLine($"/// <summary>Attempts to get the {desc} element of a property with the specified name</summary>");
+        text.WriteLine($"/// <param name=\"collection\">Collection of encoded properties</param>");
+        text.WriteLine($"/// <param name=\"name\">Name of property</param>");
+        text.WriteLine($"/// <param name=\"{lPrefix}Element\">Retrieved {desc} element</param>");
+        text.WriteLine($"/// <returns>Whether or not successful</returns>");
+        text.WriteLine($"/// ");
+        text.WriteLine($"/// <exception cref=\"ArgumentNullException\">");
+        text.WriteLine($"/// <paramref name=\"collection\"/> is null");
+        text.WriteLine($"/// <br/>or<br/>");
+        text.WriteLine($"/// <paramref name=\"name\"/> is null");
+        text.WriteLine($"/// </exception>");
+        text.WriteLine($"/// ");
+        text.WriteLine($"public static bool TryGet{uPrefix}Element(this ObjSrcImportEncodedPropertyCollection collection, ObjNTString name, out Obj{tPrefix}Element {lPrefix}Element)");
+        text.WriteLine($"{{");
+        text.WriteLine($"    try");
+        text.WriteLine($"    {{");
+        text.WriteLine($"        if (TryGetProperty(collection, name, out var property))");
+        text.WriteLine($"        {{");
+        text.WriteLine($"            {lPrefix}Element = property.{uPrefix}Value;");
+        text.WriteLine($"            return true;");
+        text.WriteLine($"        }}");
+        text.WriteLine($"        else");
+        text.WriteLine($"        {{");
+        text.WriteLine($"            {lPrefix}Element = null;");
+        text.WriteLine($"            return false;");
+        text.WriteLine($"        }}");
+        text.WriteLine($"    }}");
+        text.WriteLine($"    catch when (!ThrowUtility.Test(() => ThrowIfArgumentNull_m(collection, name), out var e)) {{ throw e; }}");
+        text.WriteLine($"}}");
+        text.WriteLine($"");
+        text.WriteLine($"/// <summary>Gets the {desc} element of a property with the specified name</summary>");
+        text.WriteLine($"/// <param name=\"collection\">Collection of encoded properties</param>");
+        text.WriteLine($"/// <param name=\"name\">Name of property</param>");
+        text.WriteLine($"/// <returns>Retrieved {desc} element</returns>");
+        text.WriteLine($"/// ");
+        text.WriteLine($"/// <exception cref=\"ArgumentNullException\">");
+        text.WriteLine($"/// <paramref name=\"collection\"/> is null");
+        text.WriteLine($"/// <br/>or<br/>");
+        text.WriteLine($"/// <paramref name=\"name\"/> is null");
+        text.WriteLine($"/// </exception>");
+        text.WriteLine($"/// ");
+        text.WriteLine($"/// <exception cref=\"ObjSrcException\">");
+        text.WriteLine($"/// <paramref name=\"collection\"/> does not contain a property with the name <paramref name=\"name\"/>");
+        text.WriteLine($"/// </exception>");
+        text.WriteLine($"/// ");
+        text.WriteLine($"public static Obj{tPrefix}Element Get{uPrefix}Element(this ObjSrcImportEncodedPropertyCollection collection, ObjNTString name)");
+        text.WriteLine($"{{");
+        text.WriteLine($"    try");
+        text.WriteLine($"    {{");
+        text.WriteLine($"        var property = GetProperty(collection, name);");
+        text.WriteLine($"        return property.{uPrefix}Value;");
+        text.WriteLine($"    }}");
+        text.WriteLine($"    catch when (!ThrowUtility.Test(() => ThrowIfArgumentNull_m(collection, name), out var e)) {{ throw e; }}");
+        text.WriteLine($"    catch (ObjSrcException e) {{ throw e; }}");
+        text.WriteLine($"}}");
+        text.WriteLine($"");
+        text.WriteLine($"#endregion");
+        text.WriteLine($"");
+        text.WriteLine($"#region Get{uPrefix}Element(ObjNTString, Type)");
+        text.WriteLine($"");
+        text.WriteLine($"/// <summary>Attempts to get the {desc} element of the specified type and of a property with the specified name</summary>");
+        text.WriteLine($"/// <param name=\"collection\">Collection of encoded properties</param>");
+        text.WriteLine($"/// <param name=\"name\">Name of property</param>");
+        text.WriteLine($"/// <param name=\"type\">Source element type</param>");
+        text.WriteLine($"/// <param name=\"{lPrefix}Element\">Retrieved {desc} element</param>");
+        text.WriteLine($"/// <returns>Whether or not successful</returns>");
+        text.WriteLine($"/// ");
+        text.WriteLine($"/// <exception cref=\"ArgumentNullException\">");
+        text.WriteLine($"/// <paramref name=\"collection\"/> is null");
+        text.WriteLine($"/// <br/>or<br/>");
+        text.WriteLine($"/// <paramref name=\"name\"/> is null");
+        text.WriteLine($"/// <br/>or<br/>");
+        text.WriteLine($"/// <paramref name=\"type\"/> is null");
+        text.WriteLine($"/// </exception>");
+        text.WriteLine($"/// ");
+        text.WriteLine($"public static bool TryGet{uPrefix}Element(this ObjSrcImportEncodedPropertyCollection collection, ObjNTString name, Type type, out Obj{tPrefix}Element {lPrefix}Element)");
+        text.WriteLine($"{{");
+        text.WriteLine($"    try");
+        text.WriteLine($"    {{");
+        text.WriteLine($"        if (!TryGet{uPrefix}Element(collection, name, out {lPrefix}Element))");
+        text.WriteLine($"        {{");
+        text.WriteLine($"            if (type is null) throw new ArgumentNullException(); //Null check");
+        text.WriteLine($"            goto fail;");
+        text.WriteLine($"        }}");
+        text.WriteLine($"        if (!{lPrefix}Element.IsOfType(type))");
+        text.WriteLine($"            goto fail;");
+        text.WriteLine($"        return true;");
+        text.WriteLine($"    fail:");
+        text.WriteLine($"        {lPrefix}Element = null;");
+        text.WriteLine($"        return false;");
+        text.WriteLine($"    }}");
+        text.WriteLine($"    catch when (!ThrowUtility.Test(() => ThrowIfArgumentNull_m(collection, name, type), out var e)) {{ throw e; }}");
+        text.WriteLine($"}}");
+        text.WriteLine($"");
+        text.WriteLine($"/// <summary>Gets the {desc} element of the specified type and of a property with the specified name</summary>");
+        text.WriteLine($"/// <param name=\"collection\">Collection of encoded properties</param>");
+        text.WriteLine($"/// <param name=\"name\">Name of property</param>");
+        text.WriteLine($"/// <param name=\"type\">Source element type</param>");
+        text.WriteLine($"/// <returns>Retrieved {desc} element</returns>");
+        text.WriteLine($"/// ");
+        text.WriteLine($"/// <exception cref=\"ArgumentNullException\">");
+        text.WriteLine($"/// <paramref name=\"collection\"/> is null");
+        text.WriteLine($"/// <br/>or<br/>");
+        text.WriteLine($"/// <paramref name=\"name\"/> is null");
+        text.WriteLine($"/// <br/>or<br/>");
+        text.WriteLine($"/// <paramref name=\"type\"/> is null");
+        text.WriteLine($"/// </exception>");
+        text.WriteLine($"/// ");
+        text.WriteLine($"/// <exception cref=\"ObjSrcException\">");
+        text.WriteLine($"/// <paramref name=\"collection\"/> does not contain a property with the name <paramref name=\"name\"/>");
+        text.WriteLine($"/// <br/>or<br/>");
+        text.WriteLine($"/// Retrieved {desc} element is not of the type <paramref name=\"type\"/>");
+        text.WriteLine($"/// </exception>");
+        text.WriteLine($"/// ");
+        text.WriteLine($"public static Obj{tPrefix}Element Get{uPrefix}Element(this ObjSrcImportEncodedPropertyCollection collection, ObjNTString name, Type type)");
+        text.WriteLine($"{{");
+        text.WriteLine($"    try");
+        text.WriteLine($"    {{");
+        text.WriteLine($"        var {lPrefix}Element = Get{uPrefix}Element(collection, name);");
+        text.WriteLine($"        if (!{lPrefix}Element.IsOfType(type)) throw Obj{tPrefix}Element_ext.ThrowElementNotOfType_m({lPrefix}Element, type);");
+        text.WriteLine($"        return {lPrefix}Element;");
+        text.WriteLine($"    }}");
+        text.WriteLine($"    catch when (!ThrowUtility.Test(() => ThrowIfArgumentNull_m(collection, name, type), out var e)) {{ throw e; }}");
+        text.WriteLine($"    catch (ObjSrcException e) {{ throw e; }}");
+        text.WriteLine($"}}");
+        text.WriteLine($"");
+        text.WriteLine($"#endregion");
+        text.WriteLine($"");
+        text.WriteLine($"#region Get{uPrefix}Element<T>(ObjNTString)");
+        text.WriteLine($"");
+        text.WriteLine($"/// <summary>Attempts to get the {desc} element of the specified type and of a property with the specified name</summary>");
+        text.WriteLine($"/// <typeparam name=\"T\">Source element type</typeparam>");
+        text.WriteLine($"/// <param name=\"collection\">Collection of encoded properties</param>");
+        text.WriteLine($"/// <param name=\"name\">Name of property</param>");
+        text.WriteLine($"/// <param name=\"{lPrefix}Element\">Retrieved {desc} element</param>");
+        text.WriteLine($"/// <returns>Whether or not successful</returns>");
+        text.WriteLine($"/// ");
+        text.WriteLine($"/// <exception cref=\"ArgumentNullException\">");
+        text.WriteLine($"/// <paramref name=\"collection\"/> is null");
+        text.WriteLine($"/// <br/>or<br/>");
+        text.WriteLine($"/// <paramref name=\"name\"/> is null");
+        text.WriteLine($"/// </exception>");
+        text.WriteLine($"/// ");
+        text.WriteLine($"public static bool TryGet{uPrefix}Element<T>(this ObjSrcImportEncodedPropertyCollection collection, ObjNTString name, out T {lPrefix}Element)");
+        text.WriteLine($"    where T : Obj{tPrefix}Element");
+        text.WriteLine($"{{");
+        text.WriteLine($"    try");
+        text.WriteLine($"    {{");
+        text.WriteLine($"        if (TryGet{uPrefix}Element(collection, name, typeof(T), out var raw))");
+        text.WriteLine($"        {{");
+        text.WriteLine($"            {lPrefix}Element = (T)raw;");
+        text.WriteLine($"            return true;");
+        text.WriteLine($"        }}");
+        text.WriteLine($"        else");
+        text.WriteLine($"        {{");
+        text.WriteLine($"            {lPrefix}Element = null;");
+        text.WriteLine($"            return false;");
+        text.WriteLine($"        }}");
+        text.WriteLine($"    }}");
+        text.WriteLine($"    catch when (!ThrowUtility.Test(() => ThrowIfArgumentNull_m(collection, name), out var e)) {{ throw e; }}");
+        text.WriteLine($"}}");
+        text.WriteLine($"");
+        text.WriteLine($"/// <summary>Gets the {desc} element of the specified type and of a property with the specified name</summary>");
+        text.WriteLine($"/// <typeparam name=\"T\">Source element type</typeparam>");
+        text.WriteLine($"/// <param name=\"collection\">Collection of encoded properties</param>");
+        text.WriteLine($"/// <param name=\"name\">Name of property</param>");
+        text.WriteLine($"/// <returns>Retrieved {desc} element</returns>");
+        text.WriteLine($"/// ");
+        text.WriteLine($"/// <exception cref=\"ArgumentNullException\">");
+        text.WriteLine($"/// <paramref name=\"collection\"/> is null");
+        text.WriteLine($"/// <br/>or<br/>");
+        text.WriteLine($"/// <paramref name=\"name\"/> is null");
+        text.WriteLine($"/// </exception>");
+        text.WriteLine($"/// ");
+        text.WriteLine($"/// <exception cref=\"ObjSrcException\">");
+        text.WriteLine($"/// <paramref name=\"collection\"/> does not contain a property with the name <paramref name=\"name\"/>");
+        text.WriteLine($"/// <br/>or<br/>");
+        text.WriteLine($"/// Retrieved {desc} element is not of the type <typeparamref name=\"T\"/>");
+        text.WriteLine($"/// </exception>");
+        text.WriteLine($"/// ");
+        text.WriteLine($"public static T Get{uPrefix}Element<T>(this ObjSrcImportEncodedPropertyCollection collection, ObjNTString name)");
+        text.WriteLine($"    where T : Obj{tPrefix}Element");
+        text.WriteLine($"{{");
+        text.WriteLine($"    try {{ return (T)Get{uPrefix}Element(collection, name, typeof(T)); }}");
+        text.WriteLine($"    catch when (!ThrowUtility.Test(() => ThrowIfArgumentNull_m(collection, name), out var e)) {{ throw e; }}");
+        text.WriteLine($"    catch (ObjSrcException e) {{ throw e; }}");
+        text.WriteLine($"}}");
+        text.WriteLine($"");
+        text.WriteLine($"#endregion");
+        text.WriteLine($"");
+        text.WriteLine($"#endregion");
+    }
+#>

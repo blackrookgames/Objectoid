@@ -35,24 +35,41 @@ namespace Objectoid.Source
         {
             try
             {
+                _Source = source;
                 _Properties = new Dictionary<ObjNTString, ObjSrcImportEncodedProperty>(source.Count);
                 foreach (var srcProperty in source)
                 {
-                    var property = new ObjSrcImportEncodedProperty(
-                        srcProperty.Name, 
-                        srcProperty.Value, 
-                        srcProperty.Value.CreateElement_m(options));
-                    _Properties.Add(property.Name, property);
+                    try
+                    {
+                        var property = new ObjSrcImportEncodedProperty(
+                            srcProperty.Name,
+                            srcProperty.Value,
+                            srcProperty.Value.CreateElement_m(options));
+                        _Properties.Add(property.Name, property);
+                    }
+                    catch (ObjSrcSrcElementException e)
+                    {
+                        var path = ObjSrcElementPath.Create(ObjSrcElementPath.Create(_Source), e.Path); 
+                        throw new ObjSrcSrcElementException(_Source, path, e.BaseMessage_p);
+                    }
+                    catch (ObjSrcException e)
+                    {
+                        throw new ObjSrcSrcElementException(_Source, e.BaseMessage_p);
+                    }
                 }
             }
             catch when (source is null) { throw new ArgumentNullException(nameof(source)); }
             catch when (options is null) { throw new ArgumentNullException(nameof(options)); }
         }
 
+        private readonly ObjSrcImport _Source;
         private readonly Dictionary<ObjNTString, ObjSrcImportEncodedProperty> _Properties;
 
         /// <summary>Number of properties within the collection</summary>
         public int Count => _Properties.Count;
+
+        /// <summary>Import source</summary>
+        public ObjSrcImport Source => _Source;
 
         /// <summary>Attempts to get the property with the specified name</summary>
         /// <param name="name">Name of the property</param>

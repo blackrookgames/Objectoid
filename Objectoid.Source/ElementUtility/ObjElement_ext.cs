@@ -79,5 +79,16 @@ namespace Objectoid.Source.ElementUtility
             }
             catch when (element is null) { throw new ArgumentNullException(nameof(element)); }
         }
+
+        /// <summary>Creates an <see cref="ObjSrcException"/> explaining an invalid element</summary>
+        /// <param name="element">Invalid element</param>
+        /// <param name="message">Message explaining the invalid element</param>
+        /// <returns>Created <see cref="ObjSrcException"/></returns>
+        /// <exception cref="ArgumentNullException"><paramref name="element"/> is null</exception>
+        public static ObjSrcException Invalid(this ObjElement element, string message)
+        {
+            try { return new ObjSrcElementException(element, message); }
+            catch when (element is null) { throw new ArgumentNullException(nameof(element)); }
+        }
     }
 }

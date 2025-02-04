@@ -79,7 +79,7 @@ namespace Objectoid.Source.ElementUtility
         public static bool TryGetElement(this ObjDocObject @object, ObjNTString name, out ObjElement element)
         {
             try { return @object.TryGetValue(name, out element); }
-            catch when (ThrowIfArgumentNull_m(@object, name)) { throw; }
+            catch { ThrowIfArgumentNull_m(@object, name); throw; }
         }
 
         /// <summary>Gets the element of the property with the specified name</summary>
@@ -103,7 +103,7 @@ namespace Objectoid.Source.ElementUtility
                     return element;
                 throw ThrowElementNotFound_m(@object, name);
             }
-            catch when (ThrowIfArgumentNull_m(@object, name)) { throw; }
+            catch { ThrowIfArgumentNull_m(@object, name); throw; }
         }
 
         #endregion
@@ -165,7 +165,7 @@ namespace Objectoid.Source.ElementUtility
                     throw ObjElement_ext.ThrowElementNotOfType_m(element, type);
                 throw ThrowElementNotFound_m(@object, name);
             }
-            catch when (ThrowIfArgumentNull_m(@object, name, type)) { throw; }
+            catch { ThrowIfArgumentNull_m(@object, name, type); throw; }
         }
 
         #endregion
@@ -201,7 +201,7 @@ namespace Objectoid.Source.ElementUtility
                     return false;
                 }
             }
-            catch when (ThrowIfArgumentNull_m(@object, name)) { throw; }
+            catch { ThrowIfArgumentNull_m(@object, name); throw; }
         }
 
         /// <summary>
@@ -232,7 +232,7 @@ namespace Objectoid.Source.ElementUtility
                     throw ObjElement_ext.ThrowElementNotOfType_m(raw, typeof(T));
                 throw ThrowElementNotFound_m(@object, name);
             }
-            catch when (ThrowIfArgumentNull_m(@object, name)) { throw; }
+            catch { ThrowIfArgumentNull_m(@object, name); throw; }
         }
 
         #endregion

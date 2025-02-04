@@ -79,7 +79,7 @@ namespace Objectoid.Source.ElementUtility
         public static bool TryGetElement(this ObjSrcObject srcObject, ObjNTString name, out ObjSrcElement srcElement)
         {
             try { return srcObject.TryGetValue(name, out srcElement); }
-            catch when (ThrowIfArgumentNull_m(srcObject, name)) { throw; }
+            catch { ThrowIfArgumentNull_m(srcObject, name); throw; }
         }
 
         /// <summary>Gets the source element of the property with the specified name</summary>
@@ -103,7 +103,7 @@ namespace Objectoid.Source.ElementUtility
                     return element;
                 throw ThrowElementNotFound_m(srcObject, name);
             }
-            catch when (ThrowIfArgumentNull_m(srcObject, name)) { throw; }
+            catch { ThrowIfArgumentNull_m(srcObject, name); throw; }
         }
 
         #endregion
@@ -165,7 +165,7 @@ namespace Objectoid.Source.ElementUtility
                     throw ObjSrcElement_ext.ThrowElementNotOfType_m(element, type);
                 throw ThrowElementNotFound_m(srcObject, name);
             }
-            catch when (ThrowIfArgumentNull_m(srcObject, name, type)) { throw; }
+            catch { ThrowIfArgumentNull_m(srcObject, name, type); throw; }
         }
 
         #endregion
@@ -201,7 +201,7 @@ namespace Objectoid.Source.ElementUtility
                     return false;
                 }
             }
-            catch when (ThrowIfArgumentNull_m(srcObject, name)) { throw; }
+            catch { ThrowIfArgumentNull_m(srcObject, name); throw; }
         }
 
         /// <summary>
@@ -232,7 +232,7 @@ namespace Objectoid.Source.ElementUtility
                     throw ObjSrcElement_ext.ThrowElementNotOfType_m(raw, typeof(T));
                 throw ThrowElementNotFound_m(srcObject, name);
             }
-            catch when (ThrowIfArgumentNull_m(srcObject, name)) { throw; }
+            catch { ThrowIfArgumentNull_m(srcObject, name); throw; }
         }
 
         #endregion

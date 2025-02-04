@@ -70,15 +70,8 @@ namespace Objectoid.Source
             {
                 if (tryGetProtocol(out var protocol))
                 {
-                    try
-                    {
-                        var encodedProperties = new ObjSrcImportEncodedPropertyCollection(this, options);
-                        return protocol.Import(encodedProperties, options);
-                    }
-                    catch (ObjSrcException e)
-                    {
-                        throw new ObjSrcSrcElementException(this, e.Message);
-                    }
+                    var encodedProperties = new ObjSrcImportEncodedPropertyCollection(this, options);
+                    return protocol.Import(encodedProperties, options);
                 }
                 else
                 {

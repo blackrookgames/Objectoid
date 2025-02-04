@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="ElementUtility\ObjSrcImportEncodedPropertyCollection_ext.get.tt" />
     <None Remove="numberElements.tt" />
   </ItemGroup>
 
@@ -39,14 +40,20 @@
     <Compile Include="&amp;internal\#ObjSrcReader\ObjSrcReaderTokenType.cs" />
     <Compile Include="&amp;internal\#ObjSrcReader\ObjSrcReader.cs" />
     <Compile Include="&amp;internal\#ObjSrcWriter\ObjSrcWriter.cs" />
-    <Compile Include="&amp;internal\&amp;attributes\ObjSrcAttributeEntry.cs" />
     <Compile Include="&amp;internal\&amp;attributes\ObjSrcDecodable.cs" />
     <Compile Include="&amp;internal\&amp;attributes\ObjSrcHead.cs" />
     <Compile Include="&amp;internal\&amp;attributes\ObjSrcReadable.cs" />
     <Compile Include="&amp;internal\IObjSrcLoadSave.cs" />
+    <Compile Include="&amp;internal\ObjSrcElementPath.cs" />
     <Compile Include="&amp;internal\ObjSrcSymbol.cs" />
     <Compile Include="&amp;internal\ObjSrcKeyword.cs" />
+    <Compile Include="&amp;internal\ThrowUtility.cs" />
     <Compile Include="ElementUtility\ObjSrcImportEncodedPropertyCollection_ext.cs" />
+    <Compile Include="ElementUtility\ObjSrcImportEncodedPropertyCollection_ext.get.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ObjSrcImportEncodedPropertyCollection_ext.get.tt</DependentUpon>
+    </Compile>
     <Compile Include="ElementUtility\ObjSrcObject_ext.cs" />
     <Compile Include="ElementUtility\ObjDocObject_ext.cs" />
     <Compile Include="ElementUtility\ObjSrcElement_ext.cs" />
@@ -77,6 +84,10 @@
     <Content Include="#elements\numberElements.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>numberElements.cs</LastGenOutput>
+    </Content>
+    <Content Include="ElementUtility\ObjSrcImportEncodedPropertyCollection_ext.get.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ObjSrcImportEncodedPropertyCollection_ext.get.cs</LastGenOutput>
     </Content>
     <Content Include="Properties\RookInfo.xml" />
     <Content Include="Properties\RookInfo.tt">

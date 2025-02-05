@@ -32,7 +32,7 @@ namespace Objectoid.Source
             try
             {
                 writer.Write($"{ObjSrcKeyword._Identifier} ");
-                IObjSrcLoadSave.WriteStringToken(writer, Value);
+                IObjSrcLoadSave.WriteStringToken(writer, (Value is null) ? "" : Value);
                 writer.WriteLine();
             }
             catch when (writer is null) { throw new ArgumentNullException(nameof(writer)); }

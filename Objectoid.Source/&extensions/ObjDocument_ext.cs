@@ -60,7 +60,7 @@ namespace Objectoid.Source
         /// <paramref name="source"/> is null
         /// </exception>
         /// 
-        private static void DecodeHeader(this ObjDocument document, ObjSrcDocument source)
+        private static void DecodeHeader_m(this ObjDocument document, ObjSrcDocument source)
         {
             try
             {
@@ -85,7 +85,7 @@ namespace Objectoid.Source
         /// <paramref name="source"/> is null
         /// </exception>
         /// 
-        private static void EncodeHeader(this ObjDocument document, ObjSrcDocument source)
+        private static void EncodeHeader_m(this ObjDocument document, ObjSrcDocument source)
         {
             try
             {
@@ -123,7 +123,7 @@ namespace Objectoid.Source
         {
             try
             {
-                DecodeHeader(document, source);
+                DecodeHeader_m(document, source);
                 ((IObjSrcDecodable)source.Root).Decode(document.RootObject);
             }
             catch when (document is null) { throw new ArgumentNullException(nameof(document)); }
@@ -163,7 +163,7 @@ namespace Objectoid.Source
             if (options is null) options = _DefaultImportOptions;
             try
             {
-                EncodeHeader(document, source);
+                EncodeHeader_m(document, source);
                 source.Root.Encode_m(document.RootObject, options);
             }
             catch when (document is null) { throw new ArgumentNullException(nameof(document)); }

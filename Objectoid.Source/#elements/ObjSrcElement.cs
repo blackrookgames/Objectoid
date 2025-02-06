@@ -14,6 +14,24 @@ namespace Objectoid.Source
         private protected NotSupportedException ThrowNotCollectible_m() =>
             throw new NotSupportedException($"{GetType().Name} cannot be part of a collection.");
 
+        /// <summary>Sets the value of <see cref="_Document"/> for the specified element and it's descendents</summary>
+        /// <param name="element">Element</param>
+        /// <param name="document">Document</param>
+        /// <exception cref="ArgumentNullException"><paramref name="element"/> is null</exception>
+        private static void SetDocument_m(ObjSrcElement element, ObjSrcDocument document)
+        {
+            try
+            {
+                element._Document = document;
+                if (element is ObjSrcCollection)
+                {
+                    foreach (var child in (ObjSrcCollection)element)
+                        SetDocument_m(child, document);
+                }
+            }
+            catch when (element is null) { throw new ArgumentNullException(nameof(element)); }
+        }
+
         #endregion
 
         #region IObjSrcLoadSave
@@ -58,8 +76,9 @@ namespace Objectoid.Source
             if (!(_Collection is null)) throw new InvalidOperationException("Element is currently part of a collection.");
             try
             {
-                _Document = collection.Document;
+                SetDocument_m(this, collection.Document);
                 _Collection = collection;
+
             }
             catch when (collection is null) { throw new ArgumentNullException(nameof(collection)); }
         }
@@ -67,8 +86,18 @@ namespace Objectoid.Source
         /// <summary>"Removes" the element from the collection it is "a part of"</summary>
         internal void RemoveFromCollection_m()
         {
-            _Document = null;
+            SetDocument_m(this, null);
             _Collection = null;
+        }
+
+        /// <summary>Forces the specified element to update it's information</summary>
+        /// <param name="element">Element to update</param>
+        /// <exception cref="ArgumentNullException"><paramref name="element"/> is null</exception>
+        private protected static void UpdateElement_m(ObjSrcElement element)
+        {
+            Console.WriteLine($"{ObjSrcElementPath.Create(element)} {(element._Document is null)} {(element._Collection?._Document is null)}");
+            try { element._Document = element._Collection?._Document; }
+            catch when (element is null) { throw new ArgumentNullException(nameof(element)); }
         }
     }
 }

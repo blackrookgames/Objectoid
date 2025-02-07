@@ -106,14 +106,17 @@ namespace Objectoid
         /// <exception cref="ArgumentNullException"><paramref name="initialData"/> is null</exception>
         public ObjRawBytesElement(IEnumerable<byte> initialData) : base(ObjType.RawBytes, true)
         {
-            try
-            {
-                __Bytes = initialData.ToArray();
-            }
-            catch when (initialData is null)
-            {
-                throw new ArgumentNullException(nameof(initialData));
-            }
+            try { __Bytes = initialData.ToArray(); }
+            catch when (initialData is null) { throw new ArgumentNullException(nameof(initialData)); }
+        }
+
+        /// <summary>Loads data from the specified enumerable collection</summary>
+        /// <param name="data">Enumerable collection to load data from</param>
+        /// <exception cref="ArgumentNullException"><paramref name="data"/> is null</exception>
+        public void Load(IEnumerable<byte> data)
+        {
+            try { __Bytes = data.ToArray(); }
+            catch when (data is null) { throw new ArgumentNullException(nameof(data)); }
         }
 
         private byte[] __Bytes;

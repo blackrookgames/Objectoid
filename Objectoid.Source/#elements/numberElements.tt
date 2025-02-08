@@ -41,7 +41,8 @@ namespace Objectoid.Source
 		text.WriteLine($"/// <summary>Represents an objectoid {desc} value source</summary>");
 		text.WriteLine($"[ObjSrcReadable(ObjSrcKeyword._{suffix})]");
         text.WriteLine($"[ObjSrcDecodable(typeof(Obj{suffix}Element))]");
-        text.WriteLine($"public class ObjSrc{suffix} : ObjSrcValuable<{literalName}>, IObjSrcDecodable<Obj{suffix}Element>");
+        text.WriteLine($"[ObjSrcEnumCompatible(typeof({literalName}))]");
+        text.WriteLine($"public class ObjSrc{suffix} : ObjSrcValuable<{literalName}>, IObjSrcDecodable<Obj{suffix}Element>, IObjSrcEnumCompatible<{literalName}>");
         text.WriteLine($"{{");
         text.PushIndent("    ");
         

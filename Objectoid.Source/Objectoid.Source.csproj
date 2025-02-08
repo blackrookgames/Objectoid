@@ -19,20 +19,27 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>numberElements.tt</DependentUpon>
     </Compile>
+    <Compile Include="#elements\ObjSrcEnum.cs" />
     <Compile Include="#headerStatements\ObjSrcHeaderStatementList.cs" />
     <Compile Include="#headerStatements\ObjSrcIdentifier.cs" />
     <Compile Include="#headerStatements\ObjSrcProtocolPrefix.cs" />
     <Compile Include="#headerStatements\ObjSrcHeaderStatement.cs" />
+    <Compile Include="#ObjSrcImport\IObjSrcImportEnumCollection.cs" />
     <Compile Include="#ObjSrcImport\ObjSrcImportEncodedProperty.cs" />
     <Compile Include="#ObjSrcImport\ObjSrcImportEncodedPropertyCollection.cs" />
     <Compile Include="#ObjSrcImport\IObjSrcImportProtocolCollection.cs" />
     <Compile Include="#ObjSrcImport\IObjSrcImportOptions.cs" />
+    <Compile Include="#ObjSrcImport\ObjSrcImportEnumCollection.cs" />
+    <Compile Include="#ObjSrcImport\ObjSrcImportEnum.cs" />
     <Compile Include="#ObjSrcImport\ObjSrcImportProtocolCollection.cs" />
     <Compile Include="&amp;exceptions\ObjSrcElementException.cs" />
     <Compile Include="&amp;exceptions\ObjSrcSrcElementException.cs" />
     <Compile Include="&amp;exceptions\ObjSrcReaderException.cs" />
     <Compile Include="&amp;exceptions\ObjSrcException.cs" />
     <Compile Include="&amp;extensions\ObjDocument_ext.cs" />
+    <Compile Include="&amp;helper\NamedCollectionReadonly.cs" />
+    <Compile Include="&amp;helper\INamedCollectionItem.cs" />
+    <Compile Include="&amp;helper\NamedCollection.cs" />
     <Compile Include="&amp;internal\&amp;attributes\ObjSrcAttribute.cs" />
     <Compile Include="&amp;internal\&amp;attributes\ObjSrcAttributeUtility.Entry.cs" />
     <Compile Include="&amp;internal\&amp;attributes\ObjSrcAttributeUtility.cs" />
@@ -41,6 +48,7 @@
     <Compile Include="&amp;internal\#ObjSrcReader\ObjSrcReaderTokenType.cs" />
     <Compile Include="&amp;internal\#ObjSrcReader\ObjSrcReader.cs" />
     <Compile Include="&amp;internal\#ObjSrcWriter\ObjSrcWriter.cs" />
+    <Compile Include="&amp;internal\&amp;attributes\ObjSrcEnumCompatible.cs" />
     <Compile Include="&amp;internal\&amp;attributes\ObjSrcDecodable.cs" />
     <Compile Include="&amp;internal\&amp;attributes\ObjSrcHead.cs" />
     <Compile Include="&amp;internal\&amp;attributes\ObjSrcReadable.cs" />
@@ -59,6 +67,7 @@
     <Compile Include="ElementUtility\ObjDocObject_ext.cs" />
     <Compile Include="ElementUtility\ObjSrcElement_ext.cs" />
     <Compile Include="ElementUtility\ObjElement_ext.cs" />
+    <Compile Include="IObjSrcEnumCompatible.cs" />
     <Compile Include="IObjSrcDecodable.cs" />
     <Compile Include="ObjSrcDocument.cs" />
     <Compile Include="#elements\ObjSrcCollection.cs" />

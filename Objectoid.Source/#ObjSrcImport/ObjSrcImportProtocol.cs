@@ -5,7 +5,7 @@ using System.Text;
 namespace Objectoid.Source
 {
     /// <summary>Base class for representing an import protocol</summary>
-    public abstract class ObjSrcImportProtocol
+    public abstract class ObjSrcImportProtocol : INamedCollectionItem<string>
     {
         #region helper
 

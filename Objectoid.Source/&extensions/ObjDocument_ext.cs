@@ -12,10 +12,11 @@ namespace Objectoid.Source
         private class DefaultImportOptions_ : IObjSrcImportOptions
         {
             private readonly DefaultImportProtocolCollection_ _Protocols = new DefaultImportProtocolCollection_();
+            private readonly DefaultImportEnumCollection_ _Enumerations = new DefaultImportEnumCollection_();
 
             bool IObjSrcImportOptions.ThrowIfUnknownProtocol => false;
-
             IObjSrcImportProtocolCollection IObjSrcImportOptions.Protocols => _Protocols;
+            IObjSrcImportEnumCollection IObjSrcImportOptions.Enumerations => _Enumerations;
         }
 
         private class DefaultImportProtocolCollection_ : IObjSrcImportProtocolCollection
@@ -30,6 +31,22 @@ namespace Objectoid.Source
             bool IObjSrcImportProtocolCollection.TryGet(string name, out ObjSrcImportProtocol protocol)
             {
                 protocol = default;
+                return false;
+            }
+        }
+
+        private class DefaultImportEnumCollection_ : IObjSrcImportEnumCollection
+        {
+            int IObjSrcImportEnumCollection.Count => 0;
+
+            IEnumerator<ObjSrcImportEnum> IObjSrcImportEnumCollection.GetEnumerator()
+            {
+                yield break;
+            }
+
+            bool IObjSrcImportEnumCollection.TryGet(string name, out ObjSrcImportEnum @enum)
+            {
+                @enum = default;
                 return false;
             }
         }

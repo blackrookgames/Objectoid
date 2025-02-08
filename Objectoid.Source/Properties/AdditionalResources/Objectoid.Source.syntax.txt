@@ -79,6 +79,7 @@ Element:
 Keywords:
 * @String        Declaration of string value                              @String <String> [<String> [<String> ... ]]
 * @NTString      Declaration of null-terminated string value              @NTString <String>
+* @Enum          Declaration of an enumeration value                      @Enum <String> <String>
 * @Bool          Declaration of boolean value                             @Bool <Constant>
 * @UInt8         Declaration of 8-bit unsigned value                      @UInt8 <Numeric>
 * @UInt16        Declaration of 16-bit unsigned value                     @UInt16 <Numeric>
@@ -98,6 +99,9 @@ Keywords:
 * @EndObject     End of an object block                                   @EndObject
 * @EndList       End of an list block                                     @EndList
 * @EndImport     End of an import block                                   @EndImport
+
+Enum example:
+@Enum "DayOfWeek" "Monday"
 
 Object example:
 @Object

@@ -111,12 +111,21 @@ namespace Objectoid.Source
             finally { writer?.Dispose(); }
         }
 
+        #region fields
+
         private readonly ObjSrcRoot _Root;
+        private readonly ObjSrcHeaderStatementList _HeaderStatements;
+
+        #endregion
+
+        #region properties
+
         /// <summary>Root object</summary>
         public ObjSrcRoot Root => _Root;
 
-        private readonly ObjSrcHeaderStatementList _HeaderStatements;
         /// <summary>Header statements</summary>
         public ObjSrcHeaderStatementList HeaderStatements => _HeaderStatements;
+
+        #endregion
     }
 }

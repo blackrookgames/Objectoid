@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Objectoid.Source
 {
-    /// <summary>Represents an objectoid object source</summary>
+    /// <summary>Represents an objectoid import source</summary>
     [ObjSrcReadable(ObjSrcKeyword._Import)]
     public class ObjSrcImport : ObjSrcObject
     {
@@ -51,18 +51,12 @@ namespace Objectoid.Source
         {
             bool tryGetProtocol(out ObjSrcImportProtocol protocol)
             {
-                if (options.Protocols.TryGet(Protocol, out protocol))
-                    return true;
-                var prefixes = (
-                    from statement in Document.HeaderStatements
-                    where statement is ObjSrcProtocolPrefix
-                    let protocolPrefix = (ObjSrcProtocolPrefix)statement
-                    select protocolPrefix.Value);
-                foreach (var prefix in prefixes)
+                foreach (var protocolName in EnumeratePotentialProtocols_m(Protocol))
                 {
-                    if (options.Protocols.TryGet($"{prefix}{Protocol}", out protocol))
+                    if (options.Protocols.TryGet(protocolName, out protocol))
                         return true;
                 }
+                protocol = default;
                 return false;
             }
 

@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+﻿using System.Text;
 using Objectoid;
 using Objectoid.Source;
 using Objectoid.Source.ElementUtility;
@@ -10,9 +10,9 @@ namespace test
     {
         static void Main(string[] args)
         {
-            var document = new ObjDocument();
-            document.RootObject.Add(new ObjNTString("A"), new ObjNullElement());
-            Console.WriteLine(document.RootObject.GetElement<ObjNullElement>(new ObjNTString("A")));
+            ObjSrcDocument src = new ObjSrcDocument();
+            using (var stream = new MemoryStream(Encoding.UTF8.GetBytes("@Object : \"test\" @List : @EndList : @EndObject")))
+                src.Load(stream);
         }
     }
 }

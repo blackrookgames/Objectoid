@@ -24,6 +24,9 @@ namespace Objectoid
         ///<summary>Declaration of null-terminated string value</summary>
         public const string _NTString = "@NTString";
 
+        ///<summary>Declaration of enumeration value</summary>
+        public const string _Enum = "@Enum";
+
         ///<summary>Declaration of boolean value</summary>
         public const string _Bool = "@Bool";
 

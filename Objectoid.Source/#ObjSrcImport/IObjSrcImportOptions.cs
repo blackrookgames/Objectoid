@@ -12,5 +12,8 @@ namespace Objectoid.Source
 
         /// <summary>Import protocols</summary>
         IObjSrcImportProtocolCollection Protocols { get; }
+
+        /// <summary>Supported enumerations</summary>
+        IObjSrcImportEnumCollection Enumerations { get; }
     }
 }

@@ -15,6 +15,8 @@ namespace Objectoid.Source
                     type.GetCustomAttribute<ObjSrcReadableAttribute>(false), type);
                 ((ICollection_<Type, ObjSrcDecodableAttribute, ObjSrcDecodable>)Decodables).TryAdd(
                     type.GetCustomAttribute<ObjSrcDecodableAttribute>(false), type);
+                ((ICollection_<Type, ObjSrcEnumCompatibleAttribute, ObjSrcEnumCompatible>)EnumCompatibles).TryAdd(
+                    type.GetCustomAttribute<ObjSrcEnumCompatibleAttribute>(false), type);
                 ((ICollection_<string, ObjSrcHeadAttribute, ObjSrcHead>)Heads).TryAdd(
                     type.GetCustomAttribute<ObjSrcHeadAttribute>(false), type);
             }
@@ -22,6 +24,7 @@ namespace Objectoid.Source
 
         public static ObjSrcReadableCollection Readables { get; } = new ObjSrcReadableCollection();
         public static ObjSrcDecodableCollection Decodables { get; } = new ObjSrcDecodableCollection();
+        public static ObjSrcEnumCompatibleCollection EnumCompatibles { get; } = new ObjSrcEnumCompatibleCollection();
         public static ObjSrcHeadCollection Heads { get; } = new ObjSrcHeadCollection();
     }
 }

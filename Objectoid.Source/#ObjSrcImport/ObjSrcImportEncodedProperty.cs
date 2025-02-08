@@ -5,7 +5,7 @@ using System.Text;
 namespace Objectoid.Source
 {
     /// <summary>Represents encoding result of a property within an instance of <see cref="ObjSrcImport"/></summary>
-    public struct ObjSrcImportEncodedProperty
+    public struct ObjSrcImportEncodedProperty : INamedCollectionItem<ObjNTString>
     {
         /// <remarks>
         /// It is assumed<br/>

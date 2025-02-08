@@ -6,7 +6,8 @@ namespace Objectoid.Source
     /// <summary>Represents an objectoid boolean value source</summary>
     [ObjSrcReadable(ObjSrcKeyword._Bool)]
     [ObjSrcDecodable(typeof(ObjBoolElement))]
-    public class ObjSrcBool : ObjSrcValuable<bool>, IObjSrcDecodable<ObjBoolElement>
+    [ObjSrcEnumCompatible(typeof(bool))]
+    public class ObjSrcBool : ObjSrcValuable<bool>, IObjSrcDecodable<ObjBoolElement>, IObjSrcEnumCompatible<bool>
     {
         #region IObjSrcDecodable
 
@@ -42,7 +43,8 @@ namespace Objectoid.Source
     /// <summary>Represents an objectoid 8-bit unsigned value source</summary>
     [ObjSrcReadable(ObjSrcKeyword._UInt8)]
     [ObjSrcDecodable(typeof(ObjUInt8Element))]
-    public class ObjSrcUInt8 : ObjSrcValuable<byte>, IObjSrcDecodable<ObjUInt8Element>
+    [ObjSrcEnumCompatible(typeof(byte))]
+    public class ObjSrcUInt8 : ObjSrcValuable<byte>, IObjSrcDecodable<ObjUInt8Element>, IObjSrcEnumCompatible<byte>
     {
         #region IObjSrcDecodable
 
@@ -75,7 +77,8 @@ namespace Objectoid.Source
     /// <summary>Represents an objectoid 8-bit signed value source</summary>
     [ObjSrcReadable(ObjSrcKeyword._Int8)]
     [ObjSrcDecodable(typeof(ObjInt8Element))]
-    public class ObjSrcInt8 : ObjSrcValuable<sbyte>, IObjSrcDecodable<ObjInt8Element>
+    [ObjSrcEnumCompatible(typeof(sbyte))]
+    public class ObjSrcInt8 : ObjSrcValuable<sbyte>, IObjSrcDecodable<ObjInt8Element>, IObjSrcEnumCompatible<sbyte>
     {
         #region IObjSrcDecodable
 
@@ -108,7 +111,8 @@ namespace Objectoid.Source
     /// <summary>Represents an objectoid 16-bit unsigned value source</summary>
     [ObjSrcReadable(ObjSrcKeyword._UInt16)]
     [ObjSrcDecodable(typeof(ObjUInt16Element))]
-    public class ObjSrcUInt16 : ObjSrcValuable<ushort>, IObjSrcDecodable<ObjUInt16Element>
+    [ObjSrcEnumCompatible(typeof(ushort))]
+    public class ObjSrcUInt16 : ObjSrcValuable<ushort>, IObjSrcDecodable<ObjUInt16Element>, IObjSrcEnumCompatible<ushort>
     {
         #region IObjSrcDecodable
 
@@ -141,7 +145,8 @@ namespace Objectoid.Source
     /// <summary>Represents an objectoid 16-bit signed value source</summary>
     [ObjSrcReadable(ObjSrcKeyword._Int16)]
     [ObjSrcDecodable(typeof(ObjInt16Element))]
-    public class ObjSrcInt16 : ObjSrcValuable<short>, IObjSrcDecodable<ObjInt16Element>
+    [ObjSrcEnumCompatible(typeof(short))]
+    public class ObjSrcInt16 : ObjSrcValuable<short>, IObjSrcDecodable<ObjInt16Element>, IObjSrcEnumCompatible<short>
     {
         #region IObjSrcDecodable
 
@@ -174,7 +179,8 @@ namespace Objectoid.Source
     /// <summary>Represents an objectoid 32-bit unsigned value source</summary>
     [ObjSrcReadable(ObjSrcKeyword._UInt32)]
     [ObjSrcDecodable(typeof(ObjUInt32Element))]
-    public class ObjSrcUInt32 : ObjSrcValuable<uint>, IObjSrcDecodable<ObjUInt32Element>
+    [ObjSrcEnumCompatible(typeof(uint))]
+    public class ObjSrcUInt32 : ObjSrcValuable<uint>, IObjSrcDecodable<ObjUInt32Element>, IObjSrcEnumCompatible<uint>
     {
         #region IObjSrcDecodable
 
@@ -207,7 +213,8 @@ namespace Objectoid.Source
     /// <summary>Represents an objectoid 32-bit signed value source</summary>
     [ObjSrcReadable(ObjSrcKeyword._Int32)]
     [ObjSrcDecodable(typeof(ObjInt32Element))]
-    public class ObjSrcInt32 : ObjSrcValuable<int>, IObjSrcDecodable<ObjInt32Element>
+    [ObjSrcEnumCompatible(typeof(int))]
+    public class ObjSrcInt32 : ObjSrcValuable<int>, IObjSrcDecodable<ObjInt32Element>, IObjSrcEnumCompatible<int>
     {
         #region IObjSrcDecodable
 
@@ -240,7 +247,8 @@ namespace Objectoid.Source
     /// <summary>Represents an objectoid 64-bit unsigned value source</summary>
     [ObjSrcReadable(ObjSrcKeyword._UInt64)]
     [ObjSrcDecodable(typeof(ObjUInt64Element))]
-    public class ObjSrcUInt64 : ObjSrcValuable<ulong>, IObjSrcDecodable<ObjUInt64Element>
+    [ObjSrcEnumCompatible(typeof(ulong))]
+    public class ObjSrcUInt64 : ObjSrcValuable<ulong>, IObjSrcDecodable<ObjUInt64Element>, IObjSrcEnumCompatible<ulong>
     {
         #region IObjSrcDecodable
 
@@ -273,7 +281,8 @@ namespace Objectoid.Source
     /// <summary>Represents an objectoid 64-bit signed value source</summary>
     [ObjSrcReadable(ObjSrcKeyword._Int64)]
     [ObjSrcDecodable(typeof(ObjInt64Element))]
-    public class ObjSrcInt64 : ObjSrcValuable<long>, IObjSrcDecodable<ObjInt64Element>
+    [ObjSrcEnumCompatible(typeof(long))]
+    public class ObjSrcInt64 : ObjSrcValuable<long>, IObjSrcDecodable<ObjInt64Element>, IObjSrcEnumCompatible<long>
     {
         #region IObjSrcDecodable
 
@@ -306,7 +315,8 @@ namespace Objectoid.Source
     /// <summary>Represents an objectoid single-precision floating-point value source</summary>
     [ObjSrcReadable(ObjSrcKeyword._Single)]
     [ObjSrcDecodable(typeof(ObjSingleElement))]
-    public class ObjSrcSingle : ObjSrcValuable<float>, IObjSrcDecodable<ObjSingleElement>
+    [ObjSrcEnumCompatible(typeof(float))]
+    public class ObjSrcSingle : ObjSrcValuable<float>, IObjSrcDecodable<ObjSingleElement>, IObjSrcEnumCompatible<float>
     {
         #region IObjSrcDecodable
 
@@ -339,7 +349,8 @@ namespace Objectoid.Source
     /// <summary>Represents an objectoid double-precision floating-point value source</summary>
     [ObjSrcReadable(ObjSrcKeyword._Double)]
     [ObjSrcDecodable(typeof(ObjDoubleElement))]
-    public class ObjSrcDouble : ObjSrcValuable<double>, IObjSrcDecodable<ObjDoubleElement>
+    [ObjSrcEnumCompatible(typeof(double))]
+    public class ObjSrcDouble : ObjSrcValuable<double>, IObjSrcDecodable<ObjDoubleElement>, IObjSrcEnumCompatible<double>
     {
         #region IObjSrcDecodable
 

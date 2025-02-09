@@ -61,7 +61,7 @@ namespace Objectoid.Source
                         var collection = (ObjSrcList)parent;
                         for (int i = 0; i < collection.Count; i++)
                         {
-                            if (srcElement == collection[i]) continue;
+                            if (srcElement != collection[i]) continue;
                             name = i.ToString();
                             goto next;
                         }

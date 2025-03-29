@@ -6,6 +6,7 @@
 <#@ output extension=".cs" #>
 using System;
 using System.IO;
+using Rookie.IO;
 
 namespace Objectoid
 {
@@ -85,6 +86,7 @@ namespace Objectoid
         text.PopIndent();
 
         text.WriteLine( "    }");
+        text.WriteLine( "    catch (EndOfStreamException e) { throw e; }");
         text.WriteLine( "    catch (IOException e) { throw e; }");
         text.WriteLine( "    catch (ObjectDisposedException e) { throw e; }");
         text.WriteLine( "}");
@@ -116,18 +118,12 @@ namespace Objectoid
     {
         void writeAction()
         {
-            text.WriteLine($"byte[] buffer = BitConverter.GetBytes(value);");
-            text.WriteLine($"if (FlipIntBytes_p) Array.Reverse(buffer);");
-            text.WriteLine($"_Stream.Write(buffer, 0, buffer.Length);");
+            text.WriteLine($"_Stream.Write{suffix}(_Buffer, value, IntIsLittleEndian);");
         }
 
         void readAction()
         {
-            text.WriteLine($"if (_Stream.Read(_Buffer, 0, {byteCount}) < {byteCount})");
-            text.WriteLine($"    throw new EndOfStreamException();");
-            text.WriteLine($"if (FlipIntBytes_p) Array.Reverse(_Buffer);");
-            text.WriteLine($"int index = FlipIntBytes_p ? (_Buffer.Length - {byteCount}) : 0;");
-            text.WriteLine($"return BitConverter.To{suffix}(_Buffer, index);");
+            text.WriteLine($"return _Stream.Read{suffix}(_Buffer, IntIsLittleEndian);");
         }
 
         Write(text, indent, suffix, literalName, desc, writeAction, readAction);
@@ -138,18 +134,12 @@ namespace Objectoid
     {
         void writeAction()
         {
-            text.WriteLine($"byte[] buffer = BitConverter.GetBytes(value);");
-            text.WriteLine($"if (FlipFloatBytes_p) Array.Reverse(buffer);");
-            text.WriteLine($"_Stream.Write(buffer, 0, buffer.Length);");
+            text.WriteLine($"_Stream.Write{suffix}(_Buffer, value, FloatIsLittleEndian);");
         }
 
         void readAction()
         {
-            text.WriteLine($"if (_Stream.Read(_Buffer, 0, {byteCount}) < {byteCount})");
-            text.WriteLine($"    throw new EndOfStreamException();");
-            text.WriteLine($"if (FlipFloatBytes_p) Array.Reverse(_Buffer);");
-            text.WriteLine($"int index = FlipFloatBytes_p ? (_Buffer.Length - {byteCount}) : 0;");
-            text.WriteLine($"return BitConverter.To{suffix}(_Buffer, index);");
+            text.WriteLine($"return _Stream.Read{suffix}(_Buffer, FloatIsLittleEndian);");
         }
 
         Write(text, indent, suffix, literalName, desc, writeAction, readAction);

@@ -68,6 +68,14 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Rookie">
+      <HintPath>..\..\Rookie.dll</HintPath>
+    </Reference>
+    <Reference Include="Rookie.IO">
+      <HintPath>..\..\Rookie.IO.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v17.0\TextTemplating\Microsoft.TextTemplating.targets" />

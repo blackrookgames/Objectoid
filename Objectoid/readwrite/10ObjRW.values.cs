@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Rookie.IO;
 
 namespace Objectoid
 {
@@ -34,6 +35,7 @@ namespace Objectoid
                 byte value = _Buffer[0];
                 return value;
             }
+            catch (EndOfStreamException e) { throw e; }
             catch (IOException e) { throw e; }
             catch (ObjectDisposedException e) { throw e; }
         }
@@ -65,6 +67,7 @@ namespace Objectoid
                 byte value = _Buffer[0];
                 return (sbyte)value;
             }
+            catch (EndOfStreamException e) { throw e; }
             catch (IOException e) { throw e; }
             catch (ObjectDisposedException e) { throw e; }
         }
@@ -77,9 +80,7 @@ namespace Objectoid
         {
             try
             {
-                byte[] buffer = BitConverter.GetBytes(value);
-                if (FlipIntBytes_p) Array.Reverse(buffer);
-                _Stream.Write(buffer, 0, buffer.Length);
+                _Stream.WriteUInt16(_Buffer, value, IntIsLittleEndian);
             }
             catch (IOException e) { throw e; }
             catch (ObjectDisposedException e) { throw e; }
@@ -93,12 +94,9 @@ namespace Objectoid
         {
             try
             {
-                if (_Stream.Read(_Buffer, 0, 2) < 2)
-                    throw new EndOfStreamException();
-                if (FlipIntBytes_p) Array.Reverse(_Buffer);
-                int index = FlipIntBytes_p ? (_Buffer.Length - 2) : 0;
-                return BitConverter.ToUInt16(_Buffer, index);
+                return _Stream.ReadUInt16(_Buffer, IntIsLittleEndian);
             }
+            catch (EndOfStreamException e) { throw e; }
             catch (IOException e) { throw e; }
             catch (ObjectDisposedException e) { throw e; }
         }
@@ -111,9 +109,7 @@ namespace Objectoid
         {
             try
             {
-                byte[] buffer = BitConverter.GetBytes(value);
-                if (FlipIntBytes_p) Array.Reverse(buffer);
-                _Stream.Write(buffer, 0, buffer.Length);
+                _Stream.WriteInt16(_Buffer, value, IntIsLittleEndian);
             }
             catch (IOException e) { throw e; }
             catch (ObjectDisposedException e) { throw e; }
@@ -127,12 +123,9 @@ namespace Objectoid
         {
             try
             {
-                if (_Stream.Read(_Buffer, 0, 2) < 2)
-                    throw new EndOfStreamException();
-                if (FlipIntBytes_p) Array.Reverse(_Buffer);
-                int index = FlipIntBytes_p ? (_Buffer.Length - 2) : 0;
-                return BitConverter.ToInt16(_Buffer, index);
+                return _Stream.ReadInt16(_Buffer, IntIsLittleEndian);
             }
+            catch (EndOfStreamException e) { throw e; }
             catch (IOException e) { throw e; }
             catch (ObjectDisposedException e) { throw e; }
         }
@@ -145,9 +138,7 @@ namespace Objectoid
         {
             try
             {
-                byte[] buffer = BitConverter.GetBytes(value);
-                if (FlipIntBytes_p) Array.Reverse(buffer);
-                _Stream.Write(buffer, 0, buffer.Length);
+                _Stream.WriteUInt32(_Buffer, value, IntIsLittleEndian);
             }
             catch (IOException e) { throw e; }
             catch (ObjectDisposedException e) { throw e; }
@@ -161,12 +152,9 @@ namespace Objectoid
         {
             try
             {
-                if (_Stream.Read(_Buffer, 0, 4) < 4)
-                    throw new EndOfStreamException();
-                if (FlipIntBytes_p) Array.Reverse(_Buffer);
-                int index = FlipIntBytes_p ? (_Buffer.Length - 4) : 0;
-                return BitConverter.ToUInt32(_Buffer, index);
+                return _Stream.ReadUInt32(_Buffer, IntIsLittleEndian);
             }
+            catch (EndOfStreamException e) { throw e; }
             catch (IOException e) { throw e; }
             catch (ObjectDisposedException e) { throw e; }
         }
@@ -179,9 +167,7 @@ namespace Objectoid
         {
             try
             {
-                byte[] buffer = BitConverter.GetBytes(value);
-                if (FlipIntBytes_p) Array.Reverse(buffer);
-                _Stream.Write(buffer, 0, buffer.Length);
+                _Stream.WriteInt32(_Buffer, value, IntIsLittleEndian);
             }
             catch (IOException e) { throw e; }
             catch (ObjectDisposedException e) { throw e; }
@@ -195,12 +181,9 @@ namespace Objectoid
         {
             try
             {
-                if (_Stream.Read(_Buffer, 0, 4) < 4)
-                    throw new EndOfStreamException();
-                if (FlipIntBytes_p) Array.Reverse(_Buffer);
-                int index = FlipIntBytes_p ? (_Buffer.Length - 4) : 0;
-                return BitConverter.ToInt32(_Buffer, index);
+                return _Stream.ReadInt32(_Buffer, IntIsLittleEndian);
             }
+            catch (EndOfStreamException e) { throw e; }
             catch (IOException e) { throw e; }
             catch (ObjectDisposedException e) { throw e; }
         }
@@ -213,9 +196,7 @@ namespace Objectoid
         {
             try
             {
-                byte[] buffer = BitConverter.GetBytes(value);
-                if (FlipIntBytes_p) Array.Reverse(buffer);
-                _Stream.Write(buffer, 0, buffer.Length);
+                _Stream.WriteUInt64(_Buffer, value, IntIsLittleEndian);
             }
             catch (IOException e) { throw e; }
             catch (ObjectDisposedException e) { throw e; }
@@ -229,12 +210,9 @@ namespace Objectoid
         {
             try
             {
-                if (_Stream.Read(_Buffer, 0, 8) < 8)
-                    throw new EndOfStreamException();
-                if (FlipIntBytes_p) Array.Reverse(_Buffer);
-                int index = FlipIntBytes_p ? (_Buffer.Length - 8) : 0;
-                return BitConverter.ToUInt64(_Buffer, index);
+                return _Stream.ReadUInt64(_Buffer, IntIsLittleEndian);
             }
+            catch (EndOfStreamException e) { throw e; }
             catch (IOException e) { throw e; }
             catch (ObjectDisposedException e) { throw e; }
         }
@@ -247,9 +225,7 @@ namespace Objectoid
         {
             try
             {
-                byte[] buffer = BitConverter.GetBytes(value);
-                if (FlipIntBytes_p) Array.Reverse(buffer);
-                _Stream.Write(buffer, 0, buffer.Length);
+                _Stream.WriteInt64(_Buffer, value, IntIsLittleEndian);
             }
             catch (IOException e) { throw e; }
             catch (ObjectDisposedException e) { throw e; }
@@ -263,12 +239,9 @@ namespace Objectoid
         {
             try
             {
-                if (_Stream.Read(_Buffer, 0, 8) < 8)
-                    throw new EndOfStreamException();
-                if (FlipIntBytes_p) Array.Reverse(_Buffer);
-                int index = FlipIntBytes_p ? (_Buffer.Length - 8) : 0;
-                return BitConverter.ToInt64(_Buffer, index);
+                return _Stream.ReadInt64(_Buffer, IntIsLittleEndian);
             }
+            catch (EndOfStreamException e) { throw e; }
             catch (IOException e) { throw e; }
             catch (ObjectDisposedException e) { throw e; }
         }
@@ -281,9 +254,7 @@ namespace Objectoid
         {
             try
             {
-                byte[] buffer = BitConverter.GetBytes(value);
-                if (FlipFloatBytes_p) Array.Reverse(buffer);
-                _Stream.Write(buffer, 0, buffer.Length);
+                _Stream.WriteSingle(_Buffer, value, FloatIsLittleEndian);
             }
             catch (IOException e) { throw e; }
             catch (ObjectDisposedException e) { throw e; }
@@ -297,12 +268,9 @@ namespace Objectoid
         {
             try
             {
-                if (_Stream.Read(_Buffer, 0, 4) < 4)
-                    throw new EndOfStreamException();
-                if (FlipFloatBytes_p) Array.Reverse(_Buffer);
-                int index = FlipFloatBytes_p ? (_Buffer.Length - 4) : 0;
-                return BitConverter.ToSingle(_Buffer, index);
+                return _Stream.ReadSingle(_Buffer, FloatIsLittleEndian);
             }
+            catch (EndOfStreamException e) { throw e; }
             catch (IOException e) { throw e; }
             catch (ObjectDisposedException e) { throw e; }
         }
@@ -315,9 +283,7 @@ namespace Objectoid
         {
             try
             {
-                byte[] buffer = BitConverter.GetBytes(value);
-                if (FlipFloatBytes_p) Array.Reverse(buffer);
-                _Stream.Write(buffer, 0, buffer.Length);
+                _Stream.WriteDouble(_Buffer, value, FloatIsLittleEndian);
             }
             catch (IOException e) { throw e; }
             catch (ObjectDisposedException e) { throw e; }
@@ -331,12 +297,9 @@ namespace Objectoid
         {
             try
             {
-                if (_Stream.Read(_Buffer, 0, 8) < 8)
-                    throw new EndOfStreamException();
-                if (FlipFloatBytes_p) Array.Reverse(_Buffer);
-                int index = FlipFloatBytes_p ? (_Buffer.Length - 8) : 0;
-                return BitConverter.ToDouble(_Buffer, index);
+                return _Stream.ReadDouble(_Buffer, FloatIsLittleEndian);
             }
+            catch (EndOfStreamException e) { throw e; }
             catch (IOException e) { throw e; }
             catch (ObjectDisposedException e) { throw e; }
         }
@@ -368,6 +331,7 @@ namespace Objectoid
                 byte value = _Buffer[0];
                 return (value & 1) == 1;
             }
+            catch (EndOfStreamException e) { throw e; }
             catch (IOException e) { throw e; }
             catch (ObjectDisposedException e) { throw e; }
         }

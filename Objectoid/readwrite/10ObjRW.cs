@@ -19,10 +19,6 @@ namespace Objectoid
                 if (!stream.CanSeek)
                     throw new ArgumentException("The stream does not support seeking.", nameof(stream));
                 _Stream = stream;
-
-                _SystemIsLittleEndian = BitConverter.IsLittleEndian;
-                UpdateFlipIntBytes_m();
-                UpdateFlipFloatBytes_m();
             }
             catch when (stream == null)
             {
@@ -43,21 +39,9 @@ namespace Objectoid
         /// <summary>Whether or not integers are stored as little-endian</summary>
         public bool IntIsLittleEndian => fIntIsLittleEndian;
 
-        private bool fFlipIntBytes;
-        /// <summary>Whether or not integer bytes should be flipped when reading/writing</summary>
-        private protected bool FlipIntBytes_p => fFlipIntBytes;
-
-        /// <summary>Updates the value of <see cref="FlipIntBytes_p"/></summary>
-        private void UpdateFlipIntBytes_m() => fFlipIntBytes = _SystemIsLittleEndian != fIntIsLittleEndian;
-
         /// <summary>Sets <see cref="IntIsLittleEndian"/> to the specified value</summary>
         /// <param name="value">Whether or not integers should be stored as little-endian</param>
-        private protected void SetIntIsLittleEndian_m(bool value)
-        {
-            fIntIsLittleEndian = value;
-            UpdateFlipIntBytes_m();
-        }
-
+        private protected void SetIntIsLittleEndian_m(bool value) => fIntIsLittleEndian = value;
         #endregion
 
         #region FloatIsLittleEndian
@@ -65,21 +49,9 @@ namespace Objectoid
         private bool fFloatIsLittleEndian;
         /// <summary>Whether or not floats are stored as little-endian</summary>
         public bool FloatIsLittleEndian => fFloatIsLittleEndian;
-
-        private bool fFlipFloatBytes;
-        /// <summary>Whether or not float bytes should be flipped when reading/writing</summary>
-        private protected bool FlipFloatBytes_p => fFlipFloatBytes;
-
-        /// <summary>Updates the value of <see cref="FlipFloatBytes_p"/></summary>
-        private void UpdateFlipFloatBytes_m() => fFlipFloatBytes = _SystemIsLittleEndian != fFloatIsLittleEndian;
-
         /// <summary>Sets <see cref="FloatIsLittleEndian"/> to the specified value</summary>
         /// <param name="value">Whether or not floats should be stored as little-endian</param>
-        private protected void SetFloatIsLittleEndian_m(bool value)
-        {
-            fFloatIsLittleEndian = value;
-            UpdateFlipFloatBytes_m();
-        }
+        private protected void SetFloatIsLittleEndian_m(bool value) => fFloatIsLittleEndian = value;
 
         #endregion
 

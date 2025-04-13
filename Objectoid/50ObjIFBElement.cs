@@ -18,12 +18,18 @@ namespace Objectoid
 
     /// <summary>Generic derivative of <see cref="ObjIFBElement"/></summary>
     ///  <typeparam name="TValue">Value</typeparam>
-    public abstract class ObjIFBElement<TValue> : ObjIFBElement
+    public abstract class ObjIFBElement<TValue> : ObjIFBElement, IObjValuable<TValue>
     {
         #region ObjIFBElement
 
         /// <inheritdoc/>
         public override object Value => Value_p;
+
+        #endregion
+
+        #region IObjValuable
+
+        TValue IObjValuable<TValue>.Value => Value_p;
 
         #endregion
 

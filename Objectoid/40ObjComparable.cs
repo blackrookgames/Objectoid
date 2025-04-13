@@ -37,7 +37,7 @@ namespace Objectoid
     /// <summary>Generic derivative of <see cref="ObjComparable"/></summary>
     ///  <typeparam name="TElement">Element</typeparam>
     ///  <typeparam name="TValue">Value</typeparam>
-    public abstract class ObjComparable<TElement, TValue> : ObjComparable
+    public abstract class ObjComparable<TElement, TValue> : ObjComparable, IObjValuable<TValue>
         where TElement : ObjComparable<TElement, TValue>
         where TValue : class, IEquatable<TValue>, IComparable<TValue>
     {
@@ -118,6 +118,12 @@ namespace Objectoid
         {
             return Compare_m((TElement)this, (TElement)other);
         }
+
+        #endregion
+
+        #region IObjValuable
+
+        TValue IObjValuable<TValue>.Value => Value_p;
 
         #endregion
 

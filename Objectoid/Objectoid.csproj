@@ -69,10 +69,10 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Rookie">
-      <HintPath>..\..\Rookie.dll</HintPath>
+      <HintPath>..\Rookie.dll</HintPath>
     </Reference>
     <Reference Include="Rookie.IO">
-      <HintPath>..\..\Rookie.IO.dll</HintPath>
+      <HintPath>..\Rookie.IO.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

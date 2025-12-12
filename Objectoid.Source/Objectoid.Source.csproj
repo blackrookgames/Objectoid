@@ -113,7 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Rookie">
-      <HintPath>..\..\Rookie.dll</HintPath>
+      <HintPath>..\Rookie.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
